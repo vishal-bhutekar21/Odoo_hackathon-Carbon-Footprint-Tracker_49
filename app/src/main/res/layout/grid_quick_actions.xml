@@ -313,6 +313,8 @@
                     app:cardBackgroundColor="#26FFFFFF"
                     app:cardCornerRadius="12dp"
                     app:cardElevation="2dp"
+
+                    android:layout_marginBottom="10dp"
                     android:layout_marginEnd="12dp">
                     <TextView
                         android:layout_width="match_parent"
