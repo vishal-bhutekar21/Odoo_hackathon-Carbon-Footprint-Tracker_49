@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> <!-- Permission for receiving boot completed event -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" /> <!-- Permission to monitor phone state -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@drawable/logoapp"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/logoapp"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AgeWellSuper"
+        tools:targetApi="31">
+        <activity
+            android:name=".CompanyFinalEmissionData"
+            android:exported="false" />
+        <activity
+            android:name=".VehicleReport"
+            android:exported="false" />
+        <activity
+            android:name=".FuelBillScan"
+            android:exported="false" />
+        <activity
+            android:name=".ElectricityBillScan"
+            android:exported="false" />
+        <activity
+            android:name=".IndustryEmission"
+            android:exported="false" />
+        <activity
+            android:name=".TransportEmission"
+            android:exported="false" />
+        <activity
+            android:name=".FlightEmission"
+            android:exported="false" />
+        <activity
+            android:name=".FuelEmission"
+            android:exported="false" />
+        <activity
+            android:name=".ElectricityEmission"
+            android:exported="false" />
+        <activity
+            android:name=".EstimationGrid"
+            android:exported="false" />
+
+        <activity
+            android:name=".AnalyzeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".IOTReport"
+            android:exported="false" />
+        <activity
+            android:name=".ConnectIOT"
+            android:exported="true" />
+        <activity
+            android:name=".Compare"
+            android:exported="false" />
+        <activity
+            android:name=".Forecast"
+            android:exported="false" />
+        <activity
+            android:name=".AiInsights"
+            android:exported="false" />
+        <activity
+            android:name=".ViewReport"
+            android:exported="false" />
+        <activity
+            android:name=".UploadReport"
+            android:exported="false" />
+        <activity
+            android:name=".AddData"
+            android:exported="false" />
+        <activity
+            android:name=".IOT_Simulator"
+            android:exported="true" />
+        <activity
+            android:name=".FeedbackActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Login"
+            android:exported="false" />
+        <activity
+            android:name=".SignUp"
+            android:exported="false" />
+        <activity
+            android:name=".OnBoardingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ForgotPassword"
+            android:exported="false" />
+
+        <activity
+            android:name=".AboutActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Dashboard"
+            android:exported="true" />
+        <activity
+            android:name=".GetStartedActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OTP"
+            android:exported="false" />
+        <activity
+            android:name=".OurFeedbacks"
+
+            android:exported="false" />
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Splash"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

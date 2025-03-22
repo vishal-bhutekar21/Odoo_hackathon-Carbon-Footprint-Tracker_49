@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Home -->
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/email"
+        android:title="Home"
+        android:enabled="true"
+        android:orderInCategory="1"
+        android:showAsAction="ifRoom" />
+
+    <!-- Reports -->
+    <item
+        android:id="@+id/nav_reports"
+        android:icon="@drawable/email"
+        android:title="Reports"
+        android:enabled="true"
+        android:orderInCategory="2"
+        android:showAsAction="ifRoom" />
+
+    <!-- Data -->
+    <item
+        android:id="@+id/nav_data"
+        android:icon="@drawable/email"
+        android:title="Data"
+        android:enabled="true"
+        android:orderInCategory="3"
+        android:showAsAction="ifRoom" />
+
+    <!-- Settings -->
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/email"
+        android:title="Settings"
+        android:enabled="true"
+        android:orderInCategory="4"
+        android:showAsAction="ifRoom" />
+
+</menu>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Core colors -->
+    <color name="primary">#0D9488</color> <!-- Primary teal color -->
+    <color name="primary_dark">#0D6D65</color> <!-- Darker variant for pressed/focused states -->
+    <color name="primary_light">#400D9488</color> <!-- Lighter variant with alpha -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#FF000000</color>
+    <color name="gray_50">#F9FAFB</color>
+    <color name="gray_100">#F3F4F6</color>
+    <color name="gray_500">#6B7280</color>
+    <color name="gray_600">#4B5563</color>
+    <color name="gray_800">#1F2937</color>
+    <color name="gray_disabled">#B0BEC5</color> <!-- Disabled state -->
+
+    <!-- Theme-specific colors -->
+    <color name="my_light_primary">#0D9488</color>
+    <color name="my_light_primary_variant">#0B7A70</color>
+    <color name="my_light_on_primary">#FFFFFF</color>
+    <color name="my_light_secondary">#0288D1</color>
+    <color name="my_light_secondary_variant">#0277BD</color>
+    <color name="my_light_on_secondary">#FFFFFF</color>
+    <color name="my_background">#FFFFFF</color>
+    <color name="my_surface">#FFFFFF</color>
+    <color name="bg">#E9F6EA</color> <!-- From first two files; third has #F5F5F5 -->
+    <color name="accent">#03DAC5</color> <!-- From first two files; third has #FF5722 -->
+
+    <!-- Additional UI colors -->
+    <color name="secondary">#400D9488</color>
+    <color name="primarybg">#F0FDFA</color>
+    <color name="teal_50">#F0FDFA</color>
+    <color name="scope1_color">#FF6B6B</color>
+    <color name="scope2_color">#4D96FF</color>
+    <color name="scope3_color">#6BCB77</color>
+    <color name="card_background">#FFFFFF</color>
+    <color name="teal_600">#0D9488</color>
+    <color name="lightGreen">#E0F2F1</color>
+    <color name="underweight">#FFF9C4</color>
+    <color name="normal">#C8E6C9</color>
+    <color name="overweight">#FFCCBC</color>
+    <color name="obese">#FFCDD2</color>
+    <color name="blue">#1E40AF</color>
+    <color name="blue_light">#DBEAFE</color>
+    <color name="green">#15803D</color>
+    <color name="green_light">#DCFCE7</color>
+    <color name="red">#DC2626</color>
+    <color name="red_light">#FEE2E2</color>
+    <color name="gray">#4B5563</color>
+    <color name="gray_light">#F3F4F6</color>
+    <color name="mint">#0D9488</color>
+    <color name="mint_light">#F0FDFA</color>
+    <color name="warning">#D97706</color>
+    <color name="warning_light">#FEF3C7</color>
+    <color name="info">#2563EB</color>
+    <color name="info_light">#DBEAFE</color>
+    <color name="text_primary">#111827</color>
+    <color name="text_secondary">#6B7280</color>
+
+    <!-- Button colors -->
+    <color name="button_background">@color/primary</color>
+    <color name="button_background_pressed">@color/primary_dark</color>
+    <color name="button_text">@color/white</color>
+    <color name="button_disabled">@color/gray_disabled</color>
+
+    <!-- Radio button colors -->
+    <color name="radio_button_tint">@color/primary</color>
+    <color name="radio_button_unselected">@color/gray_500</color>
+    <color name="radio_button_disabled">@color/gray_disabled</color>
+
+    <!-- Checkbox colors -->
+    <color name="checkbox_tint">@color/primary</color>
+    <color name="checkbox_unchecked">@color/gray_500</color>
+    <color name="checkbox_disabled">@color/gray_disabled</color>
+
+    <!-- Text input colors -->
+    <color name="text_input_border">@color/gray_500</color> <!-- Default border -->
+    <color name="text_input_border_focused">@color/primary</color> <!-- Focused border -->
+    <color name="text_input_text">@color/text_primary</color>
+    <color name="text_input_hint">@color/gray_500</color>
+</resources>

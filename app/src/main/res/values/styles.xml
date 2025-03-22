@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BottomNavActiveText">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/green</item>
+        <item name="android:fontFamily">@font/medium</item>
+    </style>
+
+    <style name="BottomNavInactiveText">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:fontFamily">@font/regular</item>
+    </style>
+
+</resources>

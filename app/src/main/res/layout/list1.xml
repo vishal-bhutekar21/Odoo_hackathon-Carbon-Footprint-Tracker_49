@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    app:cardCornerRadius="8dp"
+
+
+
+    app:cardElevation="4dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/co2Text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="CO₂ Emission: X kg"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:textColor="#212121" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:minWidth="64dp"
+            android:text="Save"
+            android:textSize="10sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#1976D2"
+            app:cornerRadius="6dp"
+            android:paddingHorizontal="10dp"
+            android:layout_marginStart="8dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/dismissButton"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:minWidth="64dp"
+            android:text="Dismiss"
+            android:textSize="10sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#757575"
+            app:cornerRadius="6dp"
+            android:paddingHorizontal="10dp"
+            android:layout_marginStart="8dp" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

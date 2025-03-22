@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="6dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="@color/primary_light">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <!-- Energy Source Image -->
+        <ImageView
+            android:id="@+id/img_energy_source"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="12dp"
+            android:contentDescription="Energy Source"
+            android:scaleType="centerInside"
+            tools:src="@drawable/electricity_manual" />
+
+        <!-- Device Details -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/device_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Device Name"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp" />
+
+            <TextView
+                android:id="@+id/device_model"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Model Name"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:paddingBottom="2dp" />
+
+            <TextView
+                android:id="@+id/power_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Power: 100W"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:paddingBottom="2dp" />
+
+            <TextView
+                android:id="@+id/energy_source"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Source: Solar"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:paddingBottom="2dp" />
+
+            <TextView
+                android:id="@+id/co2_emission"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CO₂ Emission: 0.5 kg/kWh"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:paddingBottom="8dp" />
+        </LinearLayout>
+
+        <!-- Add Device Button -->
+        <Button
+            android:id="@+id/btn_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add"
+            android:backgroundTint="@color/primary"
+            android:textColor="@color/white"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            app:cornerRadius="50dp" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

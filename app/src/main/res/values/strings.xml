@@ -1,0 +1,55 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <string name="app_name">Carbon View</string>
+    <string name="open_drawer">Open Drawer</string>
+    <string name="close_drawer">Close Drawer</string>
+    <string-array name="weight_units">
+        <item>Grams (g)</item>
+        <item>Pounds (lb)</item>
+        <item>Kilograms (kg)</item>
+        <item>Tonnes (mt)</item>
+    </string-array>
+
+    <string-array name="distance_units">
+        <item>Kilometers (km)</item>
+        <item>Miles (mi)</item>
+    </string-array>
+    <string-array name="industry_types">
+        <item>Manufacturing</item>
+        <item>Mining</item>
+        <item>Construction</item>
+    </string-array>
+    <string name="title_activity_company_emissions">Company Emissions</string>
+    <string name="total_vehicles">Total Vehicles</string>
+    <string name="total_kilometers">Total Kilometers</string>
+    <string name="total_emissions">Total Emissions</string>
+    <string name="scope1_title">Scope 1 Emissions</string>
+    <string name="scope2_title">Scope 2 Emissions</string>
+    <string name="scope3_title">Scope 3 Emissions</string>
+    <string name="data_updated">Data updated daily from IoT devices</string>
+    <string name="download_report">Download Report</string>
+
+    <string-array name="date_ranges">
+        <item>Daily</item>
+        <item>Weekly</item>
+        <item>Monthly</item>
+        <item>Custom</item>
+    </string-array>
+    <string-array name="fuel_types">
+        <item>Petrol</item>
+        <item>Diesel</item>
+        <item>Gas</item>
+    </string-array>
+
+    <string-array name="transport_methods">
+        <item>Truck</item>
+        <item>Ship</item>
+        <item>Train</item>
+        <item>Plane</item>
+    </string-array>
+
+    <string name="hint_text">a</string>
+    <string name="aboutapp"><![CDATA[Welcome to AgeWell! \n🌟 Your companion for a healthier and happier life as you age. Our app is designed to support older adults with easy-to-use features that help you stay active, healthy, and connected. 🧑‍🦳💪\n\nFeatures:\n\nPersonalized Exercise Plans : Get daily exercise routines based on your age, weight, and fitness level.\n\nHealth Monitoring ❤️: Track important health metrics and set reminders for medications and doctor visits.\n\nMedication & Emergency Alerts : Never miss a dose! Get timely reminders for your medications and emergency contacts.\n\nStay Connected : Connect with family and friends, share moments, and stay social.\nDaily Tips & Motivation : Receive helpful tips and positive messages every day.\n\nEasy to Use 📱: Simple, accessible design with larger text and easy navigation.\nAgeWell is here to help you age gracefully and live your best life! 😊]]></string>
+    <string name="secure_private"><![CDATA[Secure & Private]]></string>\
+    <string name="gemini_api_key">AIzaSyB_BBKScZAtBLQz4D5RReB23VHtPz0FH8w</string>
+
+</resources>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/bg"
+    tools:context=".ConnectIOT">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/backk"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="IOT Device Scanner"
+            android:textSize="24dp"
+            android:fontFamily="@font/medium"
+            android:textColor="@color/green"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:padding="16dp"
+        android:backgroundTint="@color/white"
+        app:cardElevation="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/tv_subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="IOT Device Scanner"
+                android:fontFamily="@font/fontbold"
+                android:textSize="22dp"
+                android:textColor="@color/black"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Connect to nearby IoT devices to monitor emissions data"
+                android:textSize="18sp"
+                android:fontFamily="@font/regular"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/black"/>
+
+            <!-- Progress Animation (Initially Hidden) -->
+            <ProgressBar
+                android:id="@+id/progress_circular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:indeterminate="true"
+                style="?android:attr/progressBarStyleLarge"/>
+
+            <!-- Connect Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_connect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Connect To IOT Sensors"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:backgroundTint="@color/green"
+                app:cornerRadius="16dp"
+                app:icon="@android:drawable/ic_menu_send"
+                android:layout_marginBottom="20dp"
+                app:iconGravity="textStart"
+                android:textSize="18sp"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_connect_vehicles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Connect to Vehicles"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:backgroundTint="@color/green"
+                app:cornerRadius="16dp"
+                app:icon="@android:drawable/ic_menu_send"
+                android:layout_marginBottom="20dp"
+                app:iconGravity="textStart"
+                android:textSize="18sp"/>
+        </LinearLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Subtitle -->
+
+</LinearLayout>
