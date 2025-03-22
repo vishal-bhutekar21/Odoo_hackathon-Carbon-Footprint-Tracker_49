@@ -1,4 +1,4 @@
-<!-- res/layout/item_video.xml -->
+<!-- res/layout/item_resource.xml -->
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -21,12 +21,12 @@
 
         <ImageView
             android:id="@+id/ivIcon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_video"
+            android:src="@drawable/ic_resource"
             android:tint="@color/teal_600"
-            android:contentDescription="Video Icon" />
+            android:contentDescription="Resource Icon" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -36,21 +36,19 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvTitle"
+                android:id="@+id/tvResourceTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Video Title"
-                android:textColor="@color/text_primary"
+                android:textColor="@color/teal_600"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:fontFamily="@font/fontbold" />
 
             <TextView
-                android:id="@+id/tvDescription"
+                android:id="@+id/tvResourceDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Video Description"
                 android:textColor="@color/text_secondary"
                 android:textSize="14sp"
                 android:fontFamily="@font/regular" />

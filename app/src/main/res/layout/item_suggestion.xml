@@ -1,35 +1,59 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!-- res/layout/item_suggestion.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:layout_marginVertical="8dp">
+    android:layout_marginVertical="8dp"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chipAction"
+        style="@style/Widget.Material3.Chip.Suggestion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:contentDescription="Toggle suggestion details"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/fontbold"
+        app:chipIcon="@drawable/ic_expand_more"
+        app:chipIconTint="@color/teal_600"
+        app:chipBackgroundColor="@color/teal_50"
+        app:chipStrokeColor="@color/teal_600"
+        app:chipStrokeWidth="1dp"
+        app:chipCornerRadius="8dp" />
 
-        <ImageView
-            android:id="@+id/ivIcon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center_vertical"
-            android:visibility="gone" />
+    <LinearLayout
+        android:id="@+id/llDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:visibility="gone">
 
         <TextView
-            android:id="@+id/tvSuggestion"
-            android:layout_width="0dp"
+            android:id="@+id/tvSteps"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="8dp"
-            android:textSize="16sp"
-            android:lineSpacingExtra="6dp"
-            android:textColor="@color/text_primary"
             android:fontFamily="@font/regular"
-            android:textAlignment="textStart" />
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp" />
 
+        <TextView
+            android:id="@+id/tvImpact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/regular"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvChallenges"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/regular"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp" />
     </LinearLayout>
-
 </LinearLayout>

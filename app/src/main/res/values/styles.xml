@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!-- res/values/styles.xml -->
 <resources>
-
     <style name="BottomNavActiveText">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/green</item>
@@ -13,4 +12,12 @@
         <item name="android:fontFamily">@font/regular</item>
     </style>
 
+    <style name="Widget.Material3.Chip.Suggestion" parent="Widget.MaterialComponents.Chip.Action">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="chipBackgroundColor">@color/teal_50</item>
+        <item name="chipStrokeColor">@color/teal_600</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="chipCornerRadius">8dp</item>
+        <item name="chipIconTint">@color/teal_600</item>
+    </style>
 </resources>

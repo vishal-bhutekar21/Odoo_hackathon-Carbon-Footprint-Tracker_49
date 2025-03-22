@@ -50,6 +50,6 @@
     <string name="hint_text">a</string>
     <string name="aboutapp"><![CDATA[Welcome to AgeWell! \n🌟 Your companion for a healthier and happier life as you age. Our app is designed to support older adults with easy-to-use features that help you stay active, healthy, and connected. 🧑‍🦳💪\n\nFeatures:\n\nPersonalized Exercise Plans : Get daily exercise routines based on your age, weight, and fitness level.\n\nHealth Monitoring ❤️: Track important health metrics and set reminders for medications and doctor visits.\n\nMedication & Emergency Alerts : Never miss a dose! Get timely reminders for your medications and emergency contacts.\n\nStay Connected : Connect with family and friends, share moments, and stay social.\nDaily Tips & Motivation : Receive helpful tips and positive messages every day.\n\nEasy to Use 📱: Simple, accessible design with larger text and easy navigation.\nAgeWell is here to help you age gracefully and live your best life! 😊]]></string>
     <string name="secure_private"><![CDATA[Secure & Private]]></string>\
-    <string name="gemini_api_key">AIzaSyB_BBKScZAtBLQz4D5RReB23VHtPz0FH8w</string>
+    <string name="gemini_api_key">AIzaSyD6SzAbuHI1tt_TfNqrQijUo1oNKI8mcQU</string>
 
 </resources>

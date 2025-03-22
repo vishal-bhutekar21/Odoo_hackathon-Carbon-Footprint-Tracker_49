@@ -153,6 +153,10 @@
         <activity
             android:name=".Splash"
             android:exported="true">
+
+        </activity>
+        <activity android:name=".AISuggestions.GetAiSuggestions"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
