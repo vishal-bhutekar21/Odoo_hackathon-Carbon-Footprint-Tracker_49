@@ -8,14 +8,31 @@
     android:orientation="vertical"
     tools:context=".SocialPlatform.UserProfileActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="My Profile"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        android:layout_margin="20dp"
-        android:textStyle="bold"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="My Profile"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:textStyle="bold"/>
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/reward"
+            android:layout_gravity="center"
+            android:layout_marginLeft="200dp"
+            android:id="@+id/rewards"/>
+
+    </LinearLayout>
+
+
 
     <!-- Profile Header -->
     <LinearLayout
