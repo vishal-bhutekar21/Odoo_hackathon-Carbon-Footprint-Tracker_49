@@ -88,13 +88,13 @@ class ManageDevices : AppCompatActivity() {
 
     private fun updateTotals(totalEmissions: Double, totalTimeHours: Double) {
         // Format emissions
-        tvTotalEmissions.text = "Total Emissions: ${String.format("%.2f", totalEmissions)} kg CO2"
+        tvTotalEmissions.text = "${String.format("%.2f", totalEmissions)} kg CO2"
 
         // Convert total time to hours and minutes
         val totalSeconds = (totalTimeHours * 3600).toLong()
         val hours = TimeUnit.SECONDS.toHours(totalSeconds)
         val minutes = TimeUnit.SECONDS.toMinutes(totalSeconds) % 60
-        tvTotalTime.text = "Total Running Time: ${hours}h ${minutes}m"
+        tvTotalTime.text = "${hours}h ${minutes}m"
     }
 
     override fun onDestroy() {
