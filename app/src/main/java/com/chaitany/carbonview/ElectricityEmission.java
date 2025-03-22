@@ -1,28 +1,32 @@
 package com.chaitany.carbonview;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.OvershootInterpolator;
-import android.widget.Button;
-import android.widget.EditText;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -38,15 +42,13 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class ElectricityEmission extends AppCompatActivity {
 
-    private EditText inputElectricity;
+    private TextInputEditText inputElectricity;
     private TextView electricityResult, carbonG, carbonLb, carbonKg, carbonMt, estimatedAt, totalEmissions;
     private MaterialCardView resultCard;
-    private Button btnCalculate;
+    private MaterialButton btnCalculate;
     private LinearLayout listContainer;
     private DatabaseReference databaseReference;
     private DatabaseReference userRef;
@@ -61,7 +63,23 @@ public class ElectricityEmission extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_electricity_emission);
 
-        // Setup toolbar
+        // Set up the Toolbar
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        // Set status bar color to match the Toolbar
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.primary));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
+        }
 
         // Get email from SharedPreferences and initialize user reference
         String email = getSharedPreferences("UserLogin", Context.MODE_PRIVATE)
@@ -98,7 +116,7 @@ public class ElectricityEmission extends AppCompatActivity {
         String safeEmail = email.replace(".", ",");
         // Initialize Firebase Database with month-specific node
         databaseReference = FirebaseDatabase.getInstance()
-                .getReference("carbonviewcalculations/"+safeEmail+"/manualaddedemissions/electricalemissions/" + currentMonth);
+                .getReference("carbonviewcalculations/" + safeEmail + "/manualaddedemissions/electricalemissions/" + currentMonth);
 
         // Load total emissions for the current month
         loadTotalEmissions();
@@ -116,20 +134,7 @@ public class ElectricityEmission extends AppCompatActivity {
                 Toast.makeText(this, "Please enter electricity consumption", Toast.LENGTH_SHORT).show();
             }
         });
-
-        // Animate result card entrance
-        resultCard.setTranslationY(200f);
-        resultCard.setAlpha(0f);
-        resultCard.animate()
-                .translationY(0f)
-                .alpha(1f)
-                .setDuration(400)
-                .setInterpolator(new OvershootInterpolator())
-                .start();
     }
-
-
-
 
     private void getElectricityEmission(double energyUsed) {
         OkHttpClient client = new OkHttpClient();
@@ -215,8 +220,8 @@ public class ElectricityEmission extends AppCompatActivity {
         View listItem = LayoutInflater.from(this).inflate(R.layout.list1, listContainer, false);
 
         TextView co2Text = listItem.findViewById(R.id.co2Text);
-        Button saveButton = listItem.findViewById(R.id.saveButton);
-        Button dismissButton = listItem.findViewById(R.id.dismissButton);
+        MaterialButton saveButton = listItem.findViewById(R.id.saveButton);
+        MaterialButton dismissButton = listItem.findViewById(R.id.dismissButton);
 
         co2Text.setText("CO₂ Emission: " + carbonKgValue + " kg");
 
@@ -278,7 +283,6 @@ public class ElectricityEmission extends AppCompatActivity {
         Map<String, Object> emissionsData = new HashMap<>();
         emissionsData.put("emissions", totalEmissions);
 
-
         userRef.setValue(emissionsData)
                 .addOnSuccessListener(aVoid -> {
                     Log.d("FirebaseSuccess", "Electricity emissions stored successfully");
@@ -291,5 +295,11 @@ public class ElectricityEmission extends AppCompatActivity {
 
     private void showError(String message) {
         runOnUiThread(() -> Toast.makeText(ElectricityEmission.this, message, Toast.LENGTH_LONG).show());
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

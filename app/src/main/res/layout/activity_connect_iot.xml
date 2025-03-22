@@ -1,122 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@color/bg"
+    android:background="@android:color/white"
+    android:fitsSystemWindows="true"
     tools:context=".ConnectIOT">
 
-
-    <LinearLayout
+    <!-- Toolbar as the Header -->
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:orientation="horizontal">
+        android:background="@color/primary"
+        android:elevation="4dp"
+        android:fitsSystemWindows="true">
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="15dp"
-            android:src="@drawable/backk"/>
-
-        <TextView
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="IOT Device Scanner"
-            android:textSize="24dp"
-            android:fontFamily="@font/medium"
-            android:textColor="@color/primary"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:textStyle="bold"/>
-    </LinearLayout>
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/primary"
+            app:title="IOT Device Scanner"
+            app:titleTextColor="@color/white"
+            app:navigationIcon="@drawable/ic_back"
+            app:navigationContentDescription="Back to previous screen" />
 
+        <!-- View for the bottom drop shadow -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:background="@drawable/toolbar_shadow" />
 
+    </com.google.android.material.appbar.AppBarLayout>
 
-    <com.google.android.material.card.MaterialCardView
+    <!-- Main Content -->
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:padding="16dp"
-        android:backgroundTint="@color/white"
-        app:cardElevation="5dp">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-
-            <TextView
-                android:id="@+id/tv_subtitle"
+            <!-- Card for IOT Device Scanner -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="IOT Device Scanner"
-                android:fontFamily="@font/fontbold"
-                android:textSize="22dp"
-                android:textColor="@color/black"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:textStyle="bold"/>
+                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="8dp"
+                android:backgroundTint="@color/white"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/gray"
+                app:strokeWidth="1dp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Connect to nearby IoT devices to monitor emissions data"
-                android:textSize="18sp"
-                android:fontFamily="@font/regular"
-                android:layout_marginLeft="10dp"
-                android:textColor="@color/black"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-            <!-- Progress Animation (Initially Hidden) -->
-            <ProgressBar
-                android:id="@+id/progress_circular"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="gone"
-                android:indeterminate="true"
-                style="?android:attr/progressBarStyleLarge"/>
+                    <TextView
+                        android:id="@+id/tv_subtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="IOT Device Scanner"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/fontbold"
+                        android:textColor="@color/text_primary"
+                        android:layout_marginBottom="8dp"/>
 
-            <!-- Connect Button -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_connect"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Connect To IOT Devices"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:backgroundTint="@color/primary"
-                app:cornerRadius="16dp"
-                app:icon="@android:drawable/ic_menu_send"
-                android:layout_marginBottom="20dp"
-                app:iconGravity="textStart"
-                android:textSize="18sp"/>
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_connect_vehicles"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Connect to Vehicles"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:backgroundTint="@color/primary"
-                app:cornerRadius="16dp"
-                app:icon="@android:drawable/ic_menu_send"
-                android:layout_marginBottom="20dp"
-                app:iconGravity="textStart"
-                android:textSize="18sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Connect to nearby IoT devices to monitor emissions data"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/regular"
+                        android:textColor="@color/text_secondary"
+                        android:layout_marginBottom="24dp"/>
+
+                    <!-- Progress Animation (Initially Hidden) -->
+                    <ProgressBar
+                        android:id="@+id/progress_circular"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center"
+                        android:visibility="gone"
+                        android:indeterminate="true"
+                        android:indeterminateTint="@color/primary"
+                        style="?android:attr/progressBarStyle" />
+
+                    <!-- Connect Button -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_connect"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="Connect To IOT Devices"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/medium"
+                        android:backgroundTint="@color/primary"
+                        app:cornerRadius="12dp"
+                        app:icon="@android:drawable/ic_menu_send"
+                        app:iconGravity="start"
+                        app:iconTint="@color/white"
+                        app:iconPadding="8dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_connect_vehicles"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="Connect to Vehicles"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/medium"
+                        android:backgroundTint="@color/primary"
+                        app:cornerRadius="12dp"
+                        app:icon="@android:drawable/ic_menu_send"
+                        app:iconGravity="start"
+                        app:iconTint="@color/white"
+                        app:iconPadding="8dp" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
         </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <!-- Subtitle -->
-
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

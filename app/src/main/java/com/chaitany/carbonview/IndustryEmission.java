@@ -1,12 +1,13 @@
 package com.chaitany.carbonview;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -17,13 +18,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
@@ -37,7 +39,7 @@ public class IndustryEmission extends AppCompatActivity {
     private EditText inputProductionAmount;
     private Spinner industryTypeSpinner;
     private TextView carbonG, carbonLb, carbonKg, carbonMt, estimatedAt, totalEmissions;
-    private TextView manufacturingFactor, miningFactor, constructionFactor; // New TextViews for factors
+    private TextView manufacturingFactor, miningFactor, constructionFactor; // TextViews for factors
     private MaterialCardView resultCard;
     private Button btnCalculate;
     private LinearLayout listContainer;
@@ -55,7 +57,23 @@ public class IndustryEmission extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_industry_emission);
 
-        // Setup toolbar
+        // Set up the Toolbar
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        // Set status bar color to match the Toolbar
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.primary));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
+        }
 
         // Get email from SharedPreferences and initialize user reference
         String email = getSharedPreferences("UserLogin", Context.MODE_PRIVATE)
@@ -95,7 +113,7 @@ public class IndustryEmission extends AppCompatActivity {
         String safeEmail = email.replace(".", ",");
         // Initialize Firebase Database with month-specific node
         databaseReference = FirebaseDatabase.getInstance()
-                .getReference("carbonviewcalculations/"+safeEmail+"/manualaddedemissions/electricalemissions/" + currentMonth);
+                .getReference("carbonviewcalculations/" + safeEmail + "/manualaddedemissions/industryemissions/" + currentMonth);
 
         // Populate the industry type spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -136,7 +154,6 @@ public class IndustryEmission extends AppCompatActivity {
                 .setInterpolator(new OvershootInterpolator())
                 .start();
     }
-
 
     private void calculateIndustryEmission(double productionAmount) {
         String selectedIndustryType = industryTypeSpinner.getSelectedItem().toString();
@@ -259,5 +276,11 @@ public class IndustryEmission extends AppCompatActivity {
 
     private void showError(String message) {
         runOnUiThread(() -> Toast.makeText(IndustryEmission.this, message, Toast.LENGTH_LONG).show());
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

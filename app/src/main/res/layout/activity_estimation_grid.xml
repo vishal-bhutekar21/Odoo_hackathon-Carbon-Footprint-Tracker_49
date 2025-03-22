@@ -1,249 +1,337 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/main"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@color/white">
+    android:background="@android:color/white"
+    android:fitsSystemWindows="true"
+    tools:context=".EstimationGrid">
 
-    <!-- Title -->
-    <LinearLayout
+    <!-- Toolbar as the Header -->
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:orientation="horizontal">
+        android:background="@color/primary"
+        android:elevation="4dp"
+        android:fitsSystemWindows="true">
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="15dp"
-            android:src="@drawable/backk"/>
-
-        <TextView
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Emission Calculation "
-            android:textSize="24dp"
-            android:textColor="@color/green"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:textStyle="bold"/>
-    </LinearLayout>
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/primary"
+            app:title="Emission Calculation"
+            app:titleTextColor="@color/white"
+            app:navigationIcon="@drawable/ic_back"
+            app:navigationContentDescription="Back to previous screen" />
 
-    <!-- Grid Layout for Cards -->
+        <!-- View for the bottom drop shadow -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:background="@drawable/toolbar_shadow" />
 
-    <com.google.android.material.card.MaterialCardView
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Main Content -->
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
-        android:layout_marginTop="20dp"
-        android:background="@color/white"
-        android:padding="16dp"
-        app:cardElevation="10dp">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
-
-        <androidx.gridlayout.widget.GridLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:layout_marginTop="20dp"
-            app:columnCount="2"
-            app:rowCount="3">
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:animateLayoutChanges="true">
 
-            <!-- Electricity Card -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
+            <!-- Header Section -->
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                app:cardCornerRadius="12dp"
-                android:id="@+id/electricalcard"
-                app:cardElevation="6dp"
-                app:layout_columnWeight="1"
-                app:layout_rowWeight="1">
+                android:text="Select Emission Category"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp" />
 
-                <LinearLayout
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Choose a category to calculate emissions manually"
+                android:textSize="16sp"
+                android:textColor="@color/text_secondary"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="24dp" />
+
+            <!-- Grid Layout for Cards -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/gray"
+                app:strokeWidth="1dp">
+
+                <androidx.gridlayout.widget.GridLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@color/bg"
-                    android:gravity="center"
-                    android:padding="16dp">
+                    android:padding="8dp"
+                    app:columnCount="2"
+                    app:rowCount="3">
 
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/electricity_manual"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <!-- Electricity Card -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/electricalcard"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Electricity Emission"
-                        android:textSize="16sp"
-                        android:textAlignment="center"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:paddingTop="8dp"/>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                        android:layout_margin="8dp"
+                        app:cardBackgroundColor="#E0F2F1"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="2dp"
+                        app:cardUseCompatPadding="true"
+                        android:stateListAnimator="@animator/card_elevation"
+                        app:layout_columnWeight="1"
+                        app:layout_rowWeight="1">
 
-            <!-- Fuel Card -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                app:cardCornerRadius="12dp"
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp">
 
-                android:id="@+id/fuelemission"
-                app:cardBackgroundColor="@color/warning_light"
-                app:cardElevation="6dp"
-                app:layout_columnWeight="1"
-                app:layout_rowWeight="1">
+                            <ImageView
+                                android:id="@+id/iv_electricity_icon"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:src="@drawable/electricity_manual"
+                                android:contentDescription="Electricity Emission Icon"
+                                android:scaleType="centerInside"
+                                app:tint="@color/primary"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:background="@color/bg"
-                    android:gravity="center"
+                            <TextView
+                                android:id="@+id/tv_electricity_label"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="Electricity Emission"
+                                android:textSize="16sp"
+                                android:textAlignment="center"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_primary"
+                                app:layout_constraintTop_toBottomOf="@id/iv_electricity_icon"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent" />
 
-                    android:padding="16dp">
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </com.google.android.material.card.MaterialCardView>
 
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/fuel_emission"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <!-- Fuel Card -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/fuelemission"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Fuel Emission"
-                        android:textSize="16sp"
-                        android:textAlignment="center"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:paddingTop="8dp"/>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                        android:layout_margin="8dp"
+                        app:cardBackgroundColor="#FEE2E2"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="2dp"
+                        app:cardUseCompatPadding="true"
+                        android:stateListAnimator="@animator/card_elevation"
+                        app:layout_columnWeight="1"
+                        app:layout_rowWeight="1">
 
-            <!-- Flight Card -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                app:cardCornerRadius="12dp"
-                android:id="@+id/flightemission"
-                app:cardBackgroundColor="@color/warning_light"
-                app:cardElevation="6dp"
-                app:layout_rowWeight="1"
-                app:layout_columnWeight="1">
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/bg"
-                    android:orientation="vertical"
-                    android:gravity="center"
+                            <ImageView
+                                android:id="@+id/iv_fuel_icon"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:src="@drawable/fuel_emission"
+                                android:contentDescription="Fuel Emission Icon"
+                                android:scaleType="centerInside"
+                                app:tint="@color/red"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent" />
 
-                    android:padding="16dp">
+                            <TextView
+                                android:id="@+id/tv_fuel_label"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="Fuel Emission"
+                                android:textSize="16sp"
+                                android:textAlignment="center"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_primary"
+                                app:layout_constraintTop_toBottomOf="@id/iv_fuel_icon"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent" />
 
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/flight_emission"/>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </com.google.android.material.card.MaterialCardView>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <!-- Flight Card -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/flightemission"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Flight Emission"
-                        android:textSize="16sp"
-                        android:textAlignment="center"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:paddingTop="8dp"/>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                        android:layout_margin="8dp"
+                        app:cardBackgroundColor="#DBEAFE"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="2dp"
+                        app:cardUseCompatPadding="true"
+                        android:stateListAnimator="@animator/card_elevation"
+                        app:layout_columnWeight="1"
+                        app:layout_rowWeight="1">
 
-            <!-- Transport Card -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                app:cardCornerRadius="12dp"
-                android:id="@+id/transportemission"
-                app:cardElevation="6dp"
-                app:layout_columnWeight="1"
-                app:layout_rowWeight="1">
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:backgroundTint="@color/bg"
-                    android:background="@color/warning_light"
-                    android:padding="16dp">
+                            <ImageView
+                                android:id="@+id/iv_flight_icon"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:src="@drawable/flight_emission"
+                                android:contentDescription="Flight Emission Icon"
+                                android:scaleType="centerInside"
+                                app:tint="@color/blue"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent" />
 
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/transport_emission"/>
+                            <TextView
+                                android:id="@+id/tv_flight_label"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="Flight Emission"
+                                android:textSize="16sp"
+                                android:textAlignment="center"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_primary"
+                                app:layout_constraintTop_toBottomOf="@id/iv_flight_icon"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Transport Card -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/transportemission"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Transport Emission"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:paddingTop="8dp"/>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                        android:layout_margin="8dp"
+                        app:cardBackgroundColor="#DCFCE7"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="2dp"
+                        app:cardUseCompatPadding="true"
+                        android:stateListAnimator="@animator/card_elevation"
+                        app:layout_columnWeight="1"
+                        app:layout_rowWeight="1">
 
-            <!-- Industry Card -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                app:cardCornerRadius="12dp"
-                android:id="@+id/industryemission"
-                app:cardElevation="6dp"
-                app:layout_columnWeight="1"
-                app:layout_rowWeight="1">
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:backgroundTint="@color/bg"
-                    android:background="@color/warning_light"
-                    android:padding="16dp">
+                            <ImageView
+                                android:id="@+id/iv_transport_icon"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:src="@drawable/transport_emission"
+                                android:contentDescription="Transport Emission Icon"
+                                android:scaleType="centerInside"
+                                app:tint="@color/green"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent" />
 
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/factory_emission"/>
+                            <TextView
+                                android:id="@+id/tv_transport_label"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="Transport Emission"
+                                android:textSize="16sp"
+                                android:textAlignment="center"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_primary"
+                                app:layout_constraintTop_toBottomOf="@id/iv_transport_icon"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Industry Card -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/industryemission"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Industry Emission"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:paddingTop="8dp"/>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                        android:layout_margin="8dp"
+                        app:cardBackgroundColor="#FEF3C7"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="2dp"
+                        app:cardUseCompatPadding="true"
+                        android:stateListAnimator="@animator/card_elevation"
+                        app:layout_columnWeight="1"
+                        app:layout_rowWeight="1">
 
-        </androidx.gridlayout.widget.GridLayout>
-    </com.google.android.material.card.MaterialCardView>
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp">
 
+                            <ImageView
+                                android:id="@+id/iv_industry_icon"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:src="@drawable/factory_emission"
+                                android:contentDescription="Industry Emission Icon"
+                                android:scaleType="centerInside"
+                                app:tint="@color/warning"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent" />
 
-</LinearLayout>
+                            <TextView
+                                android:id="@+id/tv_industry_label"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="Industry Emission"
+                                android:textSize="16sp"
+                                android:textAlignment="center"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_primary"
+                                app:layout_constraintTop_toBottomOf="@id/iv_industry_icon"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                </androidx.gridlayout.widget.GridLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -17,13 +19,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser ;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -48,7 +52,6 @@ public class AddData extends AppCompatActivity {
     private StorageReference storageReference;
     private FirebaseAuth auth;
 
-
     private Dialog progressDialog;
     private MaterialTextView progressText;
 
@@ -62,6 +65,26 @@ public class AddData extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_data);
 
+        // Set up the Toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setTitle("Add Data"); // Explicitly set the title
+        }
+
+        // Set status bar color to match the Toolbar
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.primary));
+            // Set status bar icons to light (white) if the background is dark
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
+        }
+
         uploadsRecyclerView = findViewById(R.id.uploadsRecyclerView);
         uploadsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -70,27 +93,24 @@ public class AddData extends AppCompatActivity {
         uploadAdapter = new UploadsAdapter(this, uploadList);
         uploadsRecyclerView.setAdapter(uploadAdapter);
 
-
         // Initialize Firebase
         auth = FirebaseAuth.getInstance();
-        FirebaseUser  currentUser  = auth.getCurrentUser ();
+        FirebaseUser currentUser = auth.getCurrentUser();
 
-        if (currentUser  == null) {
-            Toast.makeText(this, "User  not logged in", Toast.LENGTH_SHORT).show();
+        if (currentUser == null) {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, Login.class));
             finish();
             return;
         }
 
-        String userId = currentUser .getUid();
+        String userId = currentUser.getUid();
         databaseReference = FirebaseDatabase.getInstance().getReference("users").child(userId).child("uploads");
         storageReference = FirebaseStorage.getInstance().getReference("uploads").child(userId);
 
-        ImageView backButton = findViewById(R.id.back);
-        materialCardView=findViewById(R.id.manualEntryCard);
+        materialCardView = findViewById(R.id.manualEntryCard);
         MaterialCardView fileUploadCard = findViewById(R.id.fileUploadCard);
 
-        backButton.setOnClickListener(v -> onBackPressed());
         fileUploadCard.setOnClickListener(v -> openFileChooser());
 
         setupProgressDialog();
@@ -101,11 +121,17 @@ public class AddData extends AppCompatActivity {
         materialCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(AddData.this,EstimationGrid.class);
+                Intent i = new Intent(AddData.this, EstimationGrid.class);
                 startActivity(i);
                 finish();
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     private void setupProgressDialog() {
@@ -126,7 +152,6 @@ public class AddData extends AppCompatActivity {
         Intent chooser = Intent.createChooser(intent, "Select CSV File");
         startActivityForResult(chooser, FILE_SELECT_CODE);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -220,8 +245,6 @@ public class AddData extends AppCompatActivity {
                 });
     }
 
-
-
     private void loadUploadedFiles() {
         String userId = auth.getCurrentUser().getUid();
         StorageReference storageRef = storageReference; // Your root storage reference
@@ -270,7 +293,7 @@ public class AddData extends AppCompatActivity {
                     }
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(AddData.this, "Failed to load files: " + e.getMessage(), Toast.LENGTH_SHORT). show();
+                    Toast.makeText(AddData.this, "Failed to load files: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 }

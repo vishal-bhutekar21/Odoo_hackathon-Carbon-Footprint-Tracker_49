@@ -1,78 +1,63 @@
 package com.chaitany.carbonview;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-
-import androidx.activity.EdgeToEdge;
+import android.view.Window;
+import android.view.WindowManager;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
+import androidx.core.content.ContextCompat;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.card.MaterialCardView;
 
 public class EstimationGrid extends AppCompatActivity {
-    CardView electricityCard, fuelCard, flightCard, transportCard, industryCard;
-    Button scan;
-
+    MaterialCardView electricityCard, fuelCard, flightCard, transportCard, industryCard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_estimation_grid);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
+        // Set up the Toolbar
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        // Set status bar color to match the Toolbar
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.primary));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
+        }
+
+        // Initialize cards
         electricityCard = findViewById(R.id.electricalcard);
         fuelCard = findViewById(R.id.fuelemission);
         flightCard = findViewById(R.id.flightemission);
         transportCard = findViewById(R.id.transportemission);
         industryCard = findViewById(R.id.industryemission);
 
-
-        setuplonclicklistener();
-
+        setupOnClickListeners();
     }
 
-    private void setuplonclicklistener() {
-
-        electricityCard.setOnClickListener(view -> {
-
-            startActivity(new Intent(this, ElectricityEmission.class));
-        });
-        fuelCard.setOnClickListener(view -> {
-
-            startActivity(new Intent(this, FuelEmission.class));
-        });
-
-        flightCard.setOnClickListener(view -> {
-
-            startActivity(new Intent(this, FlightEmission.class));
-        });
-
-        transportCard.setOnClickListener(view -> {
-
-            startActivity(new Intent(this, TransportEmission.class));
-        });
-
-        industryCard.setOnClickListener(view -> {
-
-            startActivity(new Intent(this, IndustryEmission.class));
-        });
-
-
-
-
-
-
-
+    private void setupOnClickListeners() {
+        electricityCard.setOnClickListener(view -> startActivity(new Intent(this, ElectricityEmission.class)));
+        fuelCard.setOnClickListener(view -> startActivity(new Intent(this, FuelEmission.class)));
+        flightCard.setOnClickListener(view -> startActivity(new Intent(this, FlightEmission.class)));
+        transportCard.setOnClickListener(view -> startActivity(new Intent(this, TransportEmission.class)));
+        industryCard.setOnClickListener(view -> startActivity(new Intent(this, IndustryEmission.class)));
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 }

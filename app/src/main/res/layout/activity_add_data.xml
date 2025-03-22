@@ -2,42 +2,44 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
     android:id="@+id/main"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg">
+    android:background="@android:color/white"
+    android:fitsSystemWindows="true">
 
-    <LinearLayout
+    <!-- Toolbar as the Header -->
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+        android:background="@color/primary"
+        android:elevation="4dp"
+        android:fitsSystemWindows="true">
 
-        <ImageView
-            android:id="@+id/back"
-            android:layout_width="30dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="12dp"
-            android:src="@drawable/backk"/>
-
-        <TextView
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add Data"
-            android:textSize="24dp"
-            android:textColor="@color/green"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:textStyle="bold"/>
-    </LinearLayout>
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/primary"
+            app:title="Add Data"
+            app:titleTextColor="@color/white"
+            app:navigationIcon="@drawable/ic_back"
+            app:navigationContentDescription="Back to previous screen" />
 
+        <!-- View for the bottom drop shadow -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:background="@drawable/toolbar_shadow" />
 
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Main Content -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_marginTop="50dp"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,9 +52,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Choose how you want to add data"
-                android:textSize="16sp"
-                android:layout_marginLeft="45dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
                 android:textColor="@color/text_primary"
+                android:layout_marginStart="8dp"
                 android:layout_marginBottom="24dp"/>
 
             <!-- Data Entry Options -->
@@ -63,7 +66,9 @@
                 android:layout_marginBottom="16dp"
                 android:backgroundTint="@color/white"
                 app:cardElevation="4dp"
-                app:cardCornerRadius="12dp">
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/gray"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -73,21 +78,24 @@
                     android:gravity="center_vertical">
 
                     <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
                         android:src="@drawable/manual_entry"
-                        android:layout_marginEnd="16dp"/>
+                        android:contentDescription="Manual Entry Icon"
+                        android:layout_marginEnd="16dp"
+                        android:scaleType="centerInside"/>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Manual Entry"
-                            android:textSize="20sp"
+                            android:textSize="18sp"
                             android:textColor="@color/text_primary"
                             android:textStyle="bold"/>
 
@@ -95,7 +103,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Enter emissions data manually"
-                            android:textColor="@color/text_secondary"/>
+                            android:textSize="14sp"
+                            android:textColor="@color/text_secondary"
+                            android:layout_marginTop="4dp"/>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -108,7 +118,9 @@
                 android:layout_marginBottom="32dp"
                 android:backgroundTint="@color/white"
                 app:cardElevation="4dp"
-                app:cardCornerRadius="12dp">
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/gray"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -118,29 +130,34 @@
                     android:gravity="center_vertical">
 
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
                         android:src="@drawable/file_uploadfile"
-                        android:layout_marginEnd="16dp"/>
+                        android:contentDescription="File Upload Icon"
+                        android:layout_marginEnd="16dp"
+                        android:scaleType="centerInside"/>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="File Upload"
-                            android:textSize="20sp"
+                            android:textSize="18sp"
                             android:textColor="@color/text_primary"
                             android:textStyle="bold"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Upload Excel files"
-                            android:textColor="@color/text_secondary"/>
+                            android:text="Upload Excel or CSV files"
+                            android:textSize="14sp"
+                            android:textColor="@color/text_secondary"
+                            android:layout_marginTop="4dp"/>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -151,17 +168,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Recent Uploads"
-                android:textSize="24sp"
+                android:textSize="20sp"
+                android:textStyle="bold"
                 android:textColor="@color/text_primary"
+                android:layout_marginStart="8dp"
                 android:layout_marginBottom="16dp"/>
 
-            <!-- RecyclerView wrapped in a fixed height container to enable scrolling -->
+            <!-- RecyclerView for Recent Uploads -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/uploadsRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scrollbars="vertical"
-                />
+                android:paddingBottom="16dp"
+                android:clipToPadding="false"/>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

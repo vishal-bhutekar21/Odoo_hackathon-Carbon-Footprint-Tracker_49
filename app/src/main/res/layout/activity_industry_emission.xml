@@ -1,182 +1,337 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
-    android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@android:color/white"
+    android:fitsSystemWindows="true"
+    tools:context=".IndustryEmission">
 
-    <ScrollView
+    <!-- Toolbar as the Header -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primary"
+        android:elevation="4dp"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/primary"
+            app:title="Industry Emission"
+            app:titleTextColor="@color/white"
+            app:navigationIcon="@drawable/ic_back"
+            app:navigationContentDescription="Back to previous screen" />
+
+        <!-- View for the bottom drop shadow -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:background="@drawable/toolbar_shadow" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Main Content -->
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none">
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:animateLayoutChanges="true">
 
-            <!-- Title TextView for the activity -->
+            <!-- Header Section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textAlignment="center"
-                android:textStyle="bold"
+                android:text="Calculate Industry Emission"
                 android:textSize="20sp"
-                android:layout_marginBottom="25dp"
-                android:fontFamily="@font/regular"
-                android:textColor="@color/mint"
-                android:text="Calculate Industry Emission" />
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp" />
 
-            <!-- Input field for production amount -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Enter Production Amount (units)"
-                app:boxStrokeColor="@color/primary"
-                app:boxStrokeWidth="2dp"
-                app:endIconMode="clear_text">
+                android:text="Enter your production details to estimate emissions"
+                android:textSize="16sp"
+                android:textColor="@color/gray"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="24dp" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/inputProductionAmount"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:padding="12dp"
-                    android:textSize="16sp" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Spinner for selecting industry type -->
-            <Spinner
-                android:id="@+id/industryTypeSpinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@android:color/white" />
-
-            <!-- Button to calculate emissions -->
-            <Button
-                android:id="@+id/btnCalculate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Calculate Emission"
-                android:textSize="18sp"
-                android:layout_marginTop="16dp"
-                android:backgroundTint="@color/primary"
-                android:textColor="@android:color/white"
-                android:padding="12dp" />
-
-            <!-- Emission Factors Display -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="16dp"
-                android:padding="8dp"
-                android:background="@android:color/white"
-                android:elevation="2dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Emission Factors (kg CO₂ per unit):"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
-                    android:textAlignment="center" />
-
-                <TextView
-                    android:id="@+id/manufacturingFactor"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Manufacturing: 1.50 kg CO₂/unit"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/darker_gray"
-                    android:layout_marginTop="4dp"
-                    android:textAlignment="center" />
-
-                <TextView
-                    android:id="@+id/miningFactor"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Mining: 2.00 kg CO₂/unit"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/darker_gray"
-                    android:layout_marginTop="4dp"
-                    android:textAlignment="center" />
-
-                <TextView
-                    android:id="@+id/constructionFactor"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Construction: 1.80 kg CO₂/unit"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/darker_gray"
-                    android:layout_marginTop="4dp"
-                    android:textAlignment="center" />
-            </LinearLayout>
-
-            <!-- CardView to display results -->
+            <!-- Input Card -->
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/resultCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="8dp"
-                android:visibility="gone"
-                android:layout_marginTop="24dp"
-                android:layout_marginHorizontal="16dp"
-                app:strokeWidth="2dp"
-                app:strokeColor="@android:color/darker_gray"
-                android:padding="16dp">
+                android:layout_marginHorizontal="8dp"
+                app:cardBackgroundColor="#E0F2F1"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/gray"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="12dp">
+                    android:padding="16dp">
 
-                    <TextView
-                        android:id="@+id/carbonG"
+                    <!-- Production Amount Input -->
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Carbon Emission (g): --"
-                        android:textSize="16sp"
-                        android:textColor="@android:color/holo_red_dark"
-                        android:layout_marginTop="12dp"
-                        android:textAlignment="center"/>
+                        android:hint="Production Amount (units)">
 
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/inputProductionAmount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:padding="12dp"
+                            android:textSize="16sp"
+                            android:textColor="@android:color/black" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Industry Type -->
                     <TextView
-                        android:id="@+id/carbonLb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Select Industry Type"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/black"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="8dp" />
+
+                    <Spinner
+                        android:id="@+id/industryTypeSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="@android:drawable/edit_text"
+                        android:padding="8dp"
+                        android:spinnerMode="dropdown" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnCalculate"
+                        style="@style/Widget.Material3.Button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Carbon Emission (lb): --"
+                        android:layout_marginTop="16dp"
+                        android:text="Calculate Emission"
                         android:textSize="16sp"
-                        android:textColor="@android:color/holo_blue_dark"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:backgroundTint="@color/primary"
+                        app:cornerRadius="12dp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Emission Factors Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginHorizontal="8dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/gray"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Emission Factors (kg CO₂ per unit)"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/black"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:id="@+id/manufacturingFactor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Manufacturing: 1.50 kg CO₂/unit"
+                        android:textSize="14sp"
+                        android:textColor="@color/gray"
                         android:layout_marginTop="8dp"
-                        android:textAlignment="center"/>
+                        android:textAlignment="center" />
 
                     <TextView
-                        android:id="@+id/carbonKg"
+                        android:id="@+id/miningFactor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Carbon Emission (kg): --"
-                        android:textSize="16sp"
-                        android:textColor="@android:color/holo_green_dark"
-                        android:layout_marginTop="8dp"
-                        android:textAlignment="center"/>
+                        android:text="Mining: 2.00 kg CO₂/unit"
+                        android:textSize="14sp"
+                        android:textColor="@color/gray"
+                        android:layout_marginTop="4dp"
+                        android:textAlignment="center" />
 
                     <TextView
-                        android:id="@+id/carbonMt"
+                        android:id="@+id/constructionFactor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Carbon Emission (MT): --"
-                        android:textSize="16sp"
-                        android:textColor="@android:color/holo_purple"
-                        android:layout_marginTop="8dp"
-                        android:textAlignment="center"/>
+                        android:text="Construction: 1.80 kg CO₂/unit"
+                        android:textSize="14sp"
+                        android:textColor="@color/gray"
+                        android:layout_marginTop="4dp"
+                        android:textAlignment="center" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Result Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/resultCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginHorizontal="8dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/gray"
+                app:strokeWidth="1dp"
+                android:visibility="gone"
+                android:animateLayoutChanges="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Industry Emission Result"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/black"
+                        android:layout_gravity="center_horizontal"
+                        android:textAlignment="center" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/gray"
+                        android:layout_marginVertical="12dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="8dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@android:drawable/ic_menu_info_details"
+                            app:tint="@android:color/holo_red_dark"
+                            android:contentDescription="Carbon Emission in grams" />
+
+                        <TextView
+                            android:id="@+id/carbonG"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="8dp"
+                            android:text="Carbon Emission (g): --"
+                            android:textSize="16sp"
+                            android:textColor="@android:color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="8dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@android:drawable/ic_menu_info_details"
+                            app:tint="@color/blue"
+                            android:contentDescription="Carbon Emission in pounds" />
+
+                        <TextView
+                            android:id="@+id/carbonLb"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="8dp"
+                            android:text="Carbon Emission (lb): --"
+                            android:textSize="16sp"
+                            android:textColor="@android:color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="8dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@android:drawable/ic_menu_info_details"
+                            app:tint="@color/green"
+                            android:contentDescription="Carbon Emission in kilograms" />
+
+                        <TextView
+                            android:id="@+id/carbonKg"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="8dp"
+                            android:text="Carbon Emission (kg): --"
+                            android:textSize="16sp"
+                            android:textColor="@android:color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="8dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@android:drawable/ic_menu_info_details"
+                            app:tint="@color/warning"
+                            android:contentDescription="Carbon Emission in metric tons" />
+
+                        <TextView
+                            android:id="@+id/carbonMt"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="8dp"
+                            android:text="Carbon Emission (MT): --"
+                            android:textSize="16sp"
+                            android:textColor="@android:color/black" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/estimatedAt"
@@ -184,22 +339,14 @@
                         android:layout_height="wrap_content"
                         android:text="Estimated At: --"
                         android:textSize="14sp"
-                        android:textColor="@android:color/darker_gray"
+                        android:textColor="@color/gray"
                         android:textStyle="italic"
-                        android:layout_marginTop="16dp"
-                        android:textAlignment="center"/>
+                        android:layout_marginTop="12dp"
+                        android:textAlignment="center" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Container for the list item -->
-            <LinearLayout
-                android:id="@+id/listContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="16dp" />
-
-            <!-- TextView for total emissions -->
+            <!-- Total Emissions -->
             <TextView
                 android:id="@+id/totalEmissions"
                 android:layout_width="match_parent"
@@ -208,10 +355,21 @@
                 android:textSize="16sp"
                 android:textColor="@android:color/black"
                 android:textStyle="bold"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginHorizontal="8dp"
                 android:textAlignment="center"
                 android:visibility="gone" />
 
+            <!-- List Container -->
+            <LinearLayout
+                android:id="@+id/listContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="8dp" />
+
         </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

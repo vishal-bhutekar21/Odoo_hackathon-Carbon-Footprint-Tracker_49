@@ -1,13 +1,13 @@
 package com.chaitany.carbonview;
 
 import android.content.Context;
-import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.OvershootInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,15 +19,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.card.MaterialCardView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
@@ -42,11 +41,10 @@ public class TransportEmission extends AppCompatActivity implements AdapterView.
     private EditText inputWeight, inputDistance;
     private Spinner weightUnitSpinner, distanceUnitSpinner, transportMethodSpinner;
     private TextView carbonG, carbonLb, carbonKg, carbonMt, estimatedAt, totalEmissions;
-    private TextView truckFactor, shipFactor, trainFactor, planeFactor; // New TextViews for factors
+    private TextView truckFactor, shipFactor, trainFactor, planeFactor; // TextViews for factors
     private MaterialCardView resultCard;
     private Button btnCalculate;
     private LinearLayout listContainer;
-    private FirebaseAuth auth;
     private DatabaseReference databaseReference;
     private DatabaseReference userRef;
     private String currentMonth;
@@ -66,7 +64,23 @@ public class TransportEmission extends AppCompatActivity implements AdapterView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transport_emission);
 
+        // Set up the Toolbar
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
+        // Set status bar color to match the Toolbar
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.primary));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
+        }
 
         // Get email from SharedPreferences and initialize user reference
         String email = getSharedPreferences("UserLogin", Context.MODE_PRIVATE)
@@ -88,25 +102,15 @@ public class TransportEmission extends AppCompatActivity implements AdapterView.
         setupSpinners();
         setupButtonListener();
 
-        // Initialize Firebase
-        auth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = auth.getCurrentUser();
-
-        if (currentUser == null) {
-            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, Login.class));
-            finish();
-            return;
-        }
-
         // Get current month in "YYYY-MMMM" format (e.g., "2025-March")
         currentMonth = new SimpleDateFormat("yyyy-MMMM", Locale.getDefault()).format(new Date());
 
         String safeEmail = email.replace(".", ",");
         // Initialize Firebase Database with month-specific node
         databaseReference = FirebaseDatabase.getInstance()
-                .getReference("carbonviewcalculations/"+safeEmail+"/manualaddedemissions/electricalemissions/" + currentMonth);
-// Set emission factors in UI
+                .getReference("carbonviewcalculations/" + safeEmail + "/manualaddedemissions/transportemissions/" + currentMonth);
+
+        // Set emission factors in UI
         truckFactor.setText(String.format("Truck: %.2f kg CO₂/ton-km", EMISSION_FACTOR_TRUCK));
         shipFactor.setText(String.format("Ship: %.2f kg CO₂/ton-km", EMISSION_FACTOR_SHIP));
         trainFactor.setText(String.format("Train: %.2f kg CO₂/ton-km", EMISSION_FACTOR_TRAIN));
@@ -125,8 +129,6 @@ public class TransportEmission extends AppCompatActivity implements AdapterView.
                 .setInterpolator(new OvershootInterpolator())
                 .start();
     }
-
-
 
     private void initializeViews() {
         inputWeight = findViewById(R.id.inputWeight);
@@ -294,7 +296,7 @@ public class TransportEmission extends AppCompatActivity implements AdapterView.
         carbonG.setText(String.format("Carbon Emission (g): %.2f", g));
         carbonLb.setText(String.format("Carbon Emission (lb): %.2f", lb));
         carbonKg.setText(String.format("Carbon Emission (kg): %.2f", kg));
-        carbonMt.setText(String.format("Carbon Emission arduin(MT): %.2f", mt));
+        carbonMt.setText(String.format("Carbon Emission (MT): %.2f", mt));
         estimatedAt.setText("Estimated At: " + date);
     }
 
@@ -381,5 +383,11 @@ public class TransportEmission extends AppCompatActivity implements AdapterView.
 
     private void showError(String message) {
         runOnUiThread(() -> Toast.makeText(TransportEmission.this, message, Toast.LENGTH_LONG).show());
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }
