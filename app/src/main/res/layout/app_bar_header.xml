@@ -35,7 +35,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:id="@+id/menuIcon"
-                   android:src="@drawable/toolbarimg"
+                   android:src="@drawable/ic_menu"
                     android:textSize="24sp"
                     android:tint="@color/white"
                     android:contentDescription="Eco Icon"/>
@@ -43,7 +43,7 @@
                     android:id="@+id/app_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="EcoTrack Pro"
+                    android:text="Carbon View"
                     android:textColor="#FFFFFF"
                     android:textSize="22sp"
                     android:textStyle="bold"
@@ -60,12 +60,12 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:contentDescription="User Profile">
-                <TextView
+                <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="👤"
+                    android:src="@drawable/ic_user"
                     android:gravity="center"
-                    android:textSize="20sp"/>
+                    />
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
