@@ -1,8 +1,13 @@
 package com.chaitany.carbonview;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -16,6 +21,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
@@ -45,6 +51,7 @@ public class FlightEmission extends AppCompatActivity {
     private TextView emissionTitle, estimatedAt, carbonG, carbonLb, carbonKg, carbonMt, distanceResult, distanceUnit, totalEmissions;
     private LinearLayout listContainer;
     private DatabaseReference databaseReference;
+    private DatabaseReference userRef;
     private String currentMonth;
 
     private final OkHttpClient client = new OkHttpClient();
@@ -57,6 +64,26 @@ public class FlightEmission extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flight_emission);
 
+        // Setup toolbar
+
+
+        // Get email from SharedPreferences and initialize user reference
+        String email = getSharedPreferences("UserLogin", Context.MODE_PRIVATE)
+                .getString("email", null);
+        if (email != null) {
+            String safeEmail = email.replace(".", ",");
+            userRef = FirebaseDatabase.getInstance()
+                    .getReference("users")
+                    .child(safeEmail)
+                    .child("emissions_data")
+                    .child("flight_emissions");
+        } else {
+            Log.e("FlightEmission", "Email not found in SharedPreferences");
+            Toast.makeText(this, "User email not found", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Initialize views
         departureAirport = findViewById(R.id.departureAirport);
         destinationAirport = findViewById(R.id.destinationAirport);
         passengerCount = findViewById(R.id.passengerCount);
@@ -76,14 +103,28 @@ public class FlightEmission extends AppCompatActivity {
         // Get current month in "YYYY-MMMM" format (e.g., "2025-March")
         currentMonth = new SimpleDateFormat("yyyy-MMMM", Locale.getDefault()).format(new Date());
 
+        String safeEmail = email.replace(".", ",");
         // Initialize Firebase Database with month-specific node
-        databaseReference = FirebaseDatabase.getInstance().getReference("carbonviewcalculations/manualaddedemissions/flightemissions/" + currentMonth);
+        databaseReference = FirebaseDatabase.getInstance()
+                .getReference("carbonviewcalculations/"+safeEmail+"/manualaddedemissions/electricalemissions/" + currentMonth);
 
         // Load total emissions for the current month
         loadTotalEmissions();
 
         calculateButton.setOnClickListener(v -> calculateEmission());
+
+        // Animate result card entrance
+        resultCard.setTranslationY(200f);
+        resultCard.setAlpha(0f);
+        resultCard.animate()
+                .translationY(0f)
+                .alpha(1f)
+                .setDuration(400)
+                .setInterpolator(new OvershootInterpolator())
+                .start();
     }
+
+
 
     private void calculateEmission() {
         String departure = departureAirport.getText().toString().trim().toUpperCase();
@@ -232,6 +273,7 @@ public class FlightEmission extends AppCompatActivity {
                 runOnUiThread(() -> {
                     totalEmissions.setVisibility(View.VISIBLE);
                     totalEmissions.setText("Total Emissions for " + currentMonth + ": " + String.format("%.2f", finalTotal) + " kg CO₂");
+                    storeFlightEmissions(finalTotal);
                 });
             }
 
@@ -240,6 +282,20 @@ public class FlightEmission extends AppCompatActivity {
                 showError("Error loading total emissions: " + databaseError.getMessage());
             }
         });
+    }
+
+    private void storeFlightEmissions(double totalEmissions) {
+        Map<String, Object> emissionsData = new HashMap<>();
+        emissionsData.put("emissions", totalEmissions);
+
+        userRef.setValue(emissionsData)
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("FirebaseSuccess", "Flight emissions stored successfully");
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("FirebaseError", "Error storing flight emissions", e);
+                    Toast.makeText(this, "Failed to store flight emissions", Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void showError(String message) {
