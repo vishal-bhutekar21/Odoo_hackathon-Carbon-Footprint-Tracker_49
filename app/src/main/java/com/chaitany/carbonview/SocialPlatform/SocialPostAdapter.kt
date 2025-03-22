@@ -74,6 +74,7 @@ class SocialPostAdapter(
                                 pointsFromThisPost = newPoints
                             )
                             notifyItemChanged(position)
+                            Toast.makeText(context,"Text Liked",Toast.LENGTH_SHORT).show();
                             Toast.makeText(context, "Liked! Points: $newPoints", Toast.LENGTH_SHORT).show()
                             Log.d("SocialPlatform", "Update succeeded - Likes: $newLikes, Points: $newPoints")
                         }
