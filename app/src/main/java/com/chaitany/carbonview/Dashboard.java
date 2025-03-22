@@ -26,6 +26,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.chaitany.carbonview.AISuggestions.GetOnlyAiResponse;
 import com.chaitany.carbonview.SocialPlatform.SocialPlatformActivity;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
@@ -298,13 +299,34 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                 editor.putFloat("running_vehicles_emissions", runningVehiclesEmissionsValue);
                 editor.apply();
 
-
-
                 implement.setOnClickListener(view -> {
+                    // Retrieve emission data from SharedPreferences
+                    float fuelEmissions = prefs.getFloat("fuel_emissions", 0.0f);
+                    float electricEmissions = prefs.getFloat("electric_emissions", 0.0f);
+                    float flightEmissions = prefs.getFloat("flight_emissions", 0.0f);
+                    float transportEmissions = prefs.getFloat("transport_emissions", 0.0f);
+                    float industryEmissions = prefs.getFloat("industry_emissions", 0.0f);
+                    float appliancesEmissions = prefs.getFloat("appliances_emissions", 0.0f);
+                    float runningVehiclesEmissions = prefs.getFloat("running_vehicles_emissions", 0.0f);
 
+                    // Construct the prompt with all emission data
+                    String prompt = "You are an expert in carbon emission reduction for small-to-medium businesses and individuals. Based on the following emission data:\n\n" +
+                            "- Fuel Emissions: " + String.format("%.2f", fuelEmissions) + " kg CO₂ (from fuel combustion)\n" +
+                            "- Electric Emissions: " + String.format("%.2f", electricEmissions) + " kg CO₂ (from electricity usage)\n" +
+                            "- Flight Emissions: " + String.format("%.2f", flightEmissions) + " kg CO₂ (from air travel)\n" +
+                            "- Transport Emissions: " + String.format("%.2f", transportEmissions) + " kg CO₂ (from other transportation)\n" +
+                            "- Industry Emissions: " + String.format("%.2f", industryEmissions) + " kg CO₂ (from industrial processes)\n" +
+                            "- Appliances Emissions: " + String.format("%.2f", appliancesEmissions) + " kg CO₂ (from household/business appliances)\n" +
+                            "- Running Vehicles Emissions: " + String.format("%.2f", runningVehiclesEmissions) + " kg CO₂ (from vehicle operations)\n\n" +
+                            "Provide detailed suggestions for reducing carbon emissions across these categories. Format your response in Markdown with clear sections and practical recommendations" +
+                           " Provide detailed suggestions for reducing carbon emissions from these devices. Format your response in Markdown with clear sections and practical recommendations and also format the response for disaplying on mobile use emojis and bold text and other text styling afor bstter response."+
+                            "and also give articles and give youtube videos links but you always give a videos which is not alvailable on youtube lol so verity its available and then send  give direct links of 2 articles from internet and two yt videos links"+
+                    ".";
 
-
-
+                    // Create intent and pass the prompt to GetOnlyAiResponse
+                    Intent intent = new Intent(getApplicationContext(), GetOnlyAiResponse.class);
+                    intent.putExtra("prompt", prompt);
+                    startActivity(intent);
                 });
 
 
