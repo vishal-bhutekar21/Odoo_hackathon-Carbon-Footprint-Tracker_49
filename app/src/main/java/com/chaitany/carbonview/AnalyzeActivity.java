@@ -289,9 +289,10 @@ public class AnalyzeActivity extends AppCompatActivity {
 
     private void updateUI(Map<String, Double> scopeEmissions, List<CarbonEmission11> emissionsList) {
         runOnUiThread(() -> {
-            scope1Text.setText("Scope 1: " + scopeEmissions.get("Scope 1") + " kg");
-            scope2Text.setText("Scope 2: " + scopeEmissions.get("Scope 2") + " kg");
-            scope3Text.setText("Scope 3: " + scopeEmissions.get("Scope 3") + " kg");
+            scope1Text.setText("Scope 1: " + String.format("%.2f", scopeEmissions.get("Scope 1")) + " kg");
+            scope2Text.setText("Scope 2: " + String.format("%.2f", scopeEmissions.get("Scope 2")) + " kg");
+            scope3Text.setText("Scope 3: " + String.format("%.2f", scopeEmissions.get("Scope 3")) + " kg");
+
 
             if (!emissionsList.isEmpty()) {
                 CarbonEmission11 lastEntry = emissionsList.get(emissionsList.size() - 1);
