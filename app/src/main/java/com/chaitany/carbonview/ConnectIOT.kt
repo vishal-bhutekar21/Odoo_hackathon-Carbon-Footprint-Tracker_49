@@ -34,7 +34,7 @@ class ConnectIOT : AppCompatActivity() {
                 btnConnect.isEnabled = true
                 val intent = Intent(this, AddDevices::class.java)
                 startActivity(intent)
-            }, 4000)
+            }, 1000)
         }
         btnConnect_Vehicles.setOnClickListener {
             // Show progress animation
@@ -47,7 +47,7 @@ class ConnectIOT : AppCompatActivity() {
                 btnConnect.isEnabled = true
                 val intent = Intent(this, VehicleReport::class.java)
                 startActivity(intent)
-            }, 4000)
+            }, 1000)
         }
     }
 }
