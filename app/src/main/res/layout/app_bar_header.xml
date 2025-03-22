@@ -4,91 +4,167 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/primary"
+    app:cardCornerRadius="16dp"
+    app:strokeColor="#61B8F6"
+    app:strokeWidth=".5dp"
+
     android:layout_margin="16dp"
-    app:cardCornerRadius="20dp"
-    android:backgroundTint="@color/white"
-    app:cardElevation="8dp"
-    app:cardBackgroundColor="@color/white"
-    app:strokeColor="#E061F669"
-    app:strokeWidth="1dp">
-<com.google.android.material.appbar.AppBarLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
-    android:elevation="0dp">
+    android:layout_marginBottom="100dp">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/transparent"
-        app:contentInsetStart="0dp"
-        app:contentInsetEnd="0dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
 
+        <!-- Header Section -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingStart="16dp"
-            android:paddingEnd="12dp"
             android:gravity="center_vertical">
 
-            <!-- Menu Icon -->
-            <ImageButton
-                android:id="@+id/menuIcon"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/toolbarimg"
-            android:contentDescription="menu"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="8dp"
-            android:layout_marginEnd="8dp"/>
-
-            <!-- App Logo & Name -->
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingVertical="8dp">
-
-                <LinearLayout
+                android:gravity="center_vertical">
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/menuIcon"
+                   android:src="@drawable/ic_menu"
+                    android:textSize="24sp"
+                    android:tint="@color/white"
+                    android:contentDescription="Eco Icon"/>
+                <TextView
+                    android:id="@+id/app_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/txtAppName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Good Day!"
-                        android:textColor="?attr/colorOnSurface"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:fontFamily="sans-serif-medium"/>
-
-                    <TextView
-                        android:id="@+id/txtDateTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:textStyle="normal"
-                        android:text="Sustainability Starts with You!"
-                        android:textColor="?attr/colorOnSurfaceVariant"
-                        android:textSize="14sp"
-                        android:fontFamily="sans-serif"/>
-                </LinearLayout>
+                    android:text="Carbon View"
+                    android:textColor="#FFFFFF"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="8dp"
+                    android:contentDescription="App Title"/>
             </LinearLayout>
 
-            <!-- Spacer -->
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/profile_card"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:cardBackgroundColor="#33FFFFFF"
+                app:cardCornerRadius="20dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="User Profile">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_user"
+                    android:gravity="center"
+                    />
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
-    </androidx.appcompat.widget.Toolbar>
-</com.google.android.material.appbar.AppBarLayout>
+
+        <!-- Subtitle -->
+        <TextView
+            android:id="@+id/app_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next-Gen Sustainability Platform"
+            android:textColor="#E6FFFFFF"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="App Subtitle"/>
+
+        <!-- Stats Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp">
+
+            <!-- Total Emissions -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/total_emissions_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="72.2"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:contentDescription="Total Emissions Value"/>
+                <TextView
+                    android:id="@+id/total_emissions_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="tons CO₂e"
+                    android:textColor="#CCFFFFFF"
+                    android:textSize="12sp"
+                    android:contentDescription="Total Emissions Unit"/>
+            </LinearLayout>
+
+            <!-- Change vs Last Month -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/emission_change_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-15%"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:contentDescription="Emission Change Value"/>
+                <TextView
+                    android:id="@+id/emission_change_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="vs. last month"
+                    android:textColor="#CCFFFFFF"
+                    android:textSize="12sp"
+                    android:contentDescription="Emission Change Label"/>
+            </LinearLayout>
+
+            <!-- Carbon Credits -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/carbon_credits_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="620"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:contentDescription="Carbon Credits Value"/>
+                <TextView
+                    android:id="@+id/carbon_credits_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="carbon credits"
+                    android:textColor="#CCFFFFFF"
+                    android:textSize="12sp"
+                    android:contentDescription="Carbon Credits Label"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
