@@ -31,6 +31,7 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -58,6 +59,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
     // TextViews for the emission cards
     TextView fuelEmissions, electricEmissions, flightEmissions, transportEmissions, industryEmissions,runningVehiclesEmissions,appliancesEmissions;
+    MaterialButton implement;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +114,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         txtScope1Value = findViewById(R.id.txtScope1Value);
         txtScope2Value = findViewById(R.id.txtScope2Value);
         txtScope3Value = findViewById(R.id.txtScope3Value);
+
+        implement=findViewById(R.id.implement);
 
         // Initialize TextViews for the emission cards
         fuelEmissions = findViewById(R.id.fuel_emissions);
@@ -292,6 +297,17 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                 editor.putFloat("appliances_emissions", appliancesEmissionsValue);
                 editor.putFloat("running_vehicles_emissions", runningVehiclesEmissionsValue);
                 editor.apply();
+
+
+
+                implement.setOnClickListener(view -> {
+
+
+
+
+                });
+
+
 
                 // Dismiss the loading dialog after the first data fetch
                 if (loadingDialog.isShowing()) {

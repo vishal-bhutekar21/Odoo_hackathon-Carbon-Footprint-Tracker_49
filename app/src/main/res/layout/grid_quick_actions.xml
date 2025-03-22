@@ -379,6 +379,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Implement"
+                    android:id="@+id/implement"
                     android:textSize="12sp"
                     android:textColor="#FFFFFF"
                     app:backgroundTint="#0F161D"
