@@ -1,9 +1,14 @@
 package com.chaitany.carbonview;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -22,6 +27,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
@@ -42,6 +48,7 @@ public class TransportEmission extends AppCompatActivity implements AdapterView.
     private LinearLayout listContainer;
     private FirebaseAuth auth;
     private DatabaseReference databaseReference;
+    private DatabaseReference userRef;
     private String currentMonth;
 
     private String selectedWeightUnit = "g";
@@ -58,6 +65,24 @@ public class TransportEmission extends AppCompatActivity implements AdapterView.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transport_emission);
+
+
+
+        // Get email from SharedPreferences and initialize user reference
+        String email = getSharedPreferences("UserLogin", Context.MODE_PRIVATE)
+                .getString("email", null);
+        if (email != null) {
+            String safeEmail = email.replace(".", ",");
+            userRef = FirebaseDatabase.getInstance()
+                    .getReference("users")
+                    .child(safeEmail)
+                    .child("emissions_data")
+                    .child("transport_emissions");
+        } else {
+            Log.e("TransportEmission", "Email not found in SharedPreferences");
+            Toast.makeText(this, "User email not found", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         initializeViews();
         setupSpinners();
@@ -77,10 +102,11 @@ public class TransportEmission extends AppCompatActivity implements AdapterView.
         // Get current month in "YYYY-MMMM" format (e.g., "2025-March")
         currentMonth = new SimpleDateFormat("yyyy-MMMM", Locale.getDefault()).format(new Date());
 
-        // Initialize Firebase Realtime Database with month-specific node
-        databaseReference = FirebaseDatabase.getInstance().getReference("carbonviewcalculations/manualaddedemissions/transportemissions/" + currentMonth);
-
-        // Set emission factors in UI
+        String safeEmail = email.replace(".", ",");
+        // Initialize Firebase Database with month-specific node
+        databaseReference = FirebaseDatabase.getInstance()
+                .getReference("carbonviewcalculations/"+safeEmail+"/manualaddedemissions/electricalemissions/" + currentMonth);
+// Set emission factors in UI
         truckFactor.setText(String.format("Truck: %.2f kg CO₂/ton-km", EMISSION_FACTOR_TRUCK));
         shipFactor.setText(String.format("Ship: %.2f kg CO₂/ton-km", EMISSION_FACTOR_SHIP));
         trainFactor.setText(String.format("Train: %.2f kg CO₂/ton-km", EMISSION_FACTOR_TRAIN));
@@ -88,7 +114,19 @@ public class TransportEmission extends AppCompatActivity implements AdapterView.
 
         // Load total emissions for the current month
         loadTotalEmissions();
+
+        // Animate result card entrance
+        resultCard.setTranslationY(200f);
+        resultCard.setAlpha(0f);
+        resultCard.animate()
+                .translationY(0f)
+                .alpha(1f)
+                .setDuration(400)
+                .setInterpolator(new OvershootInterpolator())
+                .start();
     }
+
+
 
     private void initializeViews() {
         inputWeight = findViewById(R.id.inputWeight);
@@ -256,7 +294,7 @@ public class TransportEmission extends AppCompatActivity implements AdapterView.
         carbonG.setText(String.format("Carbon Emission (g): %.2f", g));
         carbonLb.setText(String.format("Carbon Emission (lb): %.2f", lb));
         carbonKg.setText(String.format("Carbon Emission (kg): %.2f", kg));
-        carbonMt.setText(String.format("Carbon Emission (MT): %.2f", mt));
+        carbonMt.setText(String.format("Carbon Emission arduin(MT): %.2f", mt));
         estimatedAt.setText("Estimated At: " + date);
     }
 
@@ -316,6 +354,7 @@ public class TransportEmission extends AppCompatActivity implements AdapterView.
                 runOnUiThread(() -> {
                     totalEmissions.setVisibility(View.VISIBLE);
                     totalEmissions.setText("Total Emissions for " + currentMonth + ": " + String.format("%.2f", finalTotal) + " kg CO₂");
+                    storeTransportEmissions(finalTotal);
                 });
             }
 
@@ -324,6 +363,20 @@ public class TransportEmission extends AppCompatActivity implements AdapterView.
                 showError("Error loading total emissions: " + databaseError.getMessage());
             }
         });
+    }
+
+    private void storeTransportEmissions(double totalEmissions) {
+        Map<String, Object> emissionsData = new HashMap<>();
+        emissionsData.put("emissions", totalEmissions);
+
+        userRef.setValue(emissionsData)
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("FirebaseSuccess", "Transport emissions stored successfully");
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("FirebaseError", "Error storing transport emissions", e);
+                    Toast.makeText(this, "Failed to store transport emissions", Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void showError(String message) {
