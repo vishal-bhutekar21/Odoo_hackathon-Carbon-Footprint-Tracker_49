@@ -17,7 +17,9 @@
         android:text="Your Points: 0"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_gravity="left"
         android:paddingBottom="16dp" />
 
     <!-- Rewards List -->

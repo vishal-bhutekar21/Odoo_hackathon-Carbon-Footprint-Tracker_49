@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
     card_view:cardCornerRadius="8dp"
     card_view:cardElevation="4dp"
-    card_view:cardBackgroundColor="#FFFFFF">
+    card_view:cardBackgroundColor="@android:color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,21 +16,25 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- Reward Name -->
         <TextView
             android:id="@+id/reward_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Reward Name"
             android:textSize="18sp"
-            android:textStyle="bold"
-            android:text="Reward Name" />
+            android:textStyle="bold" />
 
+        <!-- Reward Description -->
         <TextView
             android:id="@+id/reward_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Description of the reward"
             android:textSize="14sp"
-            android:text="Description of the reward" />
+            android:paddingTop="4dp" />
 
+        <!-- Cost and Redeem Button Row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,8 +47,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="16sp"
-                android:text="Cost: 0 Points" />
+                android:text="Cost: 0 Points"
+                android:textSize="16sp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/redeem_button"
