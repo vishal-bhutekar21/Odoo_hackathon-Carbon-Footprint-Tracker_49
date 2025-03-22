@@ -1,60 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp">
-
-    <!-- Image Preview -->
-    <ImageView
-        android:id="@+id/socialImagePreview"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:scaleType="centerCrop"
-        android:background="@android:color/darker_gray"
-        android:contentDescription="Image Preview" />
-
-    <!-- Upload Image Button -->
-    <Button
-        android:id="@+id/socialBtnUploadImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Upload Image"
-        android:layout_gravity="center" />
-
-    <!-- Event Name -->
-    <com.google.android.material.textfield.TextInputLayout
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:scrollbars="none">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Event Name">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/socialEventName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:background="#FFFAFAFA"
+        android:elevation="6dp"
+        android:clipToPadding="false">
 
-    <!-- Description -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Description">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/socialDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- Date Picker -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Date">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/socialDate"
+        <!-- Image Preview Card -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="false"
-            android:clickable="true" />
-    </com.google.android.material.textfield.TextInputLayout>
+            app:cardCornerRadius="16dp"
+            app:cardElevation="3dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="#FFE0E0E0"
+            android:layout_marginBottom="24dp">
 
-</LinearLayout>
+            <ImageView
+                android:id="@+id/socialImagePreview"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:scaleType="centerCrop"
+                android:background="#FFF5F5F5"
+                android:contentDescription="Event Image Preview"
+                android:transitionName="image_transition"
+                android:foreground="?android:attr/selectableItemBackground" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Upload Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/socialBtnUploadImage"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:text="Upload Image"
+            android:textSize="14sp"
+            android:letterSpacing="0.02"
+            android:textColor="#FFFFFFFF"
+            app:backgroundTint="@color/primary"
+            app:cornerRadius="12dp"
+            app:rippleColor="#40FFFFFF"
+            android:paddingHorizontal="28dp"
+            android:layout_marginBottom="28dp"
+            app:iconTint="#FFFFFFFF"
+            app:iconGravity="start"
+            app:iconPadding="8dp" />
+
+        <!-- Event Name -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Event Name"
+            app:hintTextColor="#FF757575"
+            app:boxStrokeWidth="1dp"
+            app:boxStrokeWidthFocused="2dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginBottom="20dp"
+            app:startIconTint="#FF3F51B5">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/socialEventName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FF1A1A1A"
+                android:textSize="16sp"
+                android:textColorHint="#FFB0BEC5"
+                android:paddingVertical="12dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Description -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Description"
+            app:hintTextColor="#FF757575"
+            app:boxStrokeWidth="1dp"
+            app:boxStrokeWidthFocused="2dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginBottom="20dp"
+            app:startIconTint="#FF3F51B5">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/socialDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FF1A1A1A"
+                android:textSize="16sp"
+                android:textColorHint="#FFB0BEC5"
+                android:paddingVertical="12dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Date Picker -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Event Date"
+            app:hintTextColor="#FF757575"
+
+            app:boxStrokeWidth="1dp"
+            app:boxStrokeWidthFocused="2dp"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/ic_calendar"
+            app:endIconTint="@color/primary"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/socialDate"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textColor="#FF1A1A1A"
+                android:textSize="16sp"
+                android:textColorHint="#FFB0BEC5"
+                android:paddingVertical="12dp"
+                android:focusable="false"
+                android:clickable="true"
+                android:cursorVisible="false" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+</ScrollView>
