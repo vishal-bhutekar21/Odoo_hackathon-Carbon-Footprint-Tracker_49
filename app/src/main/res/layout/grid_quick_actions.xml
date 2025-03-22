@@ -49,7 +49,6 @@
                         android:gravity="center"
                         android:id="@+id/add_data"
                         android:layout_gravity="center"
-
                         android:orientation="vertical"
                         android:padding="14dp">
 
