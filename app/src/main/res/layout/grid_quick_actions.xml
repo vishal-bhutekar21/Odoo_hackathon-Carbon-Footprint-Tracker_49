@@ -6,10 +6,9 @@
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
     app:cardCornerRadius="20dp"
-    app:cardElevation="8dp"
     app:cardBackgroundColor="@color/white"
-    app:strokeColor="#E061F669"
-    app:strokeWidth="1dp">
+    app:strokeColor="#61B8F6"
+    app:strokeWidth=".5dp">
 
     <GridLayout
         android:layout_width="match_parent"
