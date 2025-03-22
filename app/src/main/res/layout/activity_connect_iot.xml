@@ -88,7 +88,7 @@
                 android:id="@+id/btn_connect"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Connect To IOT Sensors"
+                android:text="Connect To IOT Devices"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
