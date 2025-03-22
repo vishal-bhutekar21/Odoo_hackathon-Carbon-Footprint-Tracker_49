@@ -75,12 +75,13 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="120dp"
+                android:id="@+id/socialcard"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="6dp"
                 android:layout_gravity="bottom"
-                app:cardBackgroundColor="#4CAF50">
+                app:cardBackgroundColor="#3B3E3B">
 
                 <LinearLayout
                     android:id="@+id/compare"
@@ -95,17 +96,17 @@
                     <ImageView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:src="@drawable/scanbills" />
+                        android:src="@drawable/social" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Scan Bills"
+                        android:text="Carbon Community"
                         android:textStyle="bold"
 
                         android:fontFamily="sans-serif-condensed-light"
                         android:textColor="@color/white"
-                        android:textSize="14sp"
+                        android:textSize="12sp"
                         android:gravity="center"
                         android:layout_marginTop="8dp"/>
                 </LinearLayout>
