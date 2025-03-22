@@ -1,8 +1,9 @@
 package com.chaitany.carbonview
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.telephony.SmsManager
+import android.provider.Settings
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.view.View
@@ -11,13 +12,15 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import kotlin.random.Random
+import com.google.firebase.database.ValueEventListener
 
 class SignUp : AppCompatActivity() {
 
@@ -53,7 +56,6 @@ class SignUp : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         val cbShowPassword = findViewById<CheckBox>(R.id.cbShowPassword)
-
         cbShowPassword.setOnCheckedChangeListener { _, isChecked ->
             togglePasswordVisibility(passwordField, isChecked)
         }
@@ -68,7 +70,7 @@ class SignUp : AppCompatActivity() {
 
             if (validateFields(nameField, mobileField, emailField, sizeField, locationField, passwordField, progressBar)) {
                 progressBar.visibility = View.VISIBLE
-                createUser (email, password, name, mobile, size, location)
+                checkDeviceRegistration(email, password, name, mobile, size, location)
             }
         }
 
@@ -78,35 +80,81 @@ class SignUp : AppCompatActivity() {
         }
     }
 
-    private fun createUser (email: String, password: String, name: String, mobile: String, size: String, location: String) {
+    private fun checkDeviceRegistration(email: String, password: String, name: String, mobile: String, size: String, location: String) {
+        val deviceId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
+        val deviceRef = database.child("DeviceRegistrations").child(deviceId)
+
+        deviceRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    // Device already registered
+                    progressBar.visibility = View.GONE
+                    showMultipleAccountDialog()
+                } else {
+                    // Device not registered, proceed with signup
+                    createUser(email, password, name, mobile, size, location, deviceId)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                progressBar.visibility = View.GONE
+                Toast.makeText(this@SignUp, "Error checking device: ${error.message}", Toast.LENGTH_LONG).show()
+            }
+        })
+    }
+
+    private fun showMultipleAccountDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Account Creation Limit")
+            .setMessage("You cannot create multiple accounts from this device. Only one account is allowed per device.")
+            .setPositiveButton("OK") { _, _ ->
+                // Do nothing, just close the dialog
+            }
+            .setCancelable(false)
+            .show()
+    }
+
+    private fun createUser(email: String, password: String, name: String, mobile: String, size: String, location: String, deviceId: String) {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             progressBar.visibility = View.GONE
             if (task.isSuccessful) {
-                // User created successfully, now store additional info in Realtime Database
-                val userId = auth.currentUser ?.uid
-                val user = User(name, mobile, size, location)
+                val userId = auth.currentUser?.uid
+                val sanitizedEmail = sanitizeEmail(email)
+                val user = User(name, mobile, size, location, email, sanitizedEmail)
                 if (userId != null) {
-                    database.child("users").child(userId).setValue(user)
-                        .addOnCompleteListener { dbTask ->
-                            if (dbTask.isSuccessful) {
-                                Toast.makeText(this, "User  registered successfully", Toast.LENGTH_SHORT).show()
-                                // Optionally send OTP here
-                                // val otp = generateOtp()
-                                // sendOtpToUser (mobile, otp)
-                                // openOtpActivity(mobile, otp, name, email, size, location, password)
-                            } else {
-                                Toast.makeText(this, "Failed to store user data: ${dbTask.exception?.message}", Toast.LENGTH_LONG).show()
+                    // Store user data
+                    database.child("Carbonusers").child(userId).setValue(user)
+                    // Store in Users/[sanitized_email] for Login compatibility
+                    database.child("Users").child(sanitizedEmail).setValue(mapOf(
+                        "name" to name,
+                        "rawEmail" to email,
+                        "email" to sanitizedEmail
+                    ))
+                    // Register device
+                    database.child("DeviceRegistrations").child(deviceId).setValue(mapOf(
+                        "userId" to userId,
+                        "registeredAt" to System.currentTimeMillis()
+                    )).addOnCompleteListener { dbTask ->
+                        if (dbTask.isSuccessful) {
+                            val sharedPreferences = getSharedPreferences("UserLogin", MODE_PRIVATE)
+                            with(sharedPreferences.edit()) {
+                                putString("email", email)
+                                putString("name", name)
+                                putBoolean("deviceRegistered", true) // Optional local flag
+                                apply()
                             }
+                            Toast.makeText(this, "User registered successfully", Toast.LENGTH_SHORT).show()
+                            startActivity(Intent(this, Login::class.java))
+                            finish()
+                        } else {
+                            Toast.makeText(this, "Failed to store user data: ${dbTask.exception?.message}", Toast.LENGTH_LONG).show()
                         }
+                    }
                 }
             } else {
                 Toast.makeText(this, "Registration failed: ${task.exception?.message}", Toast.LENGTH_LONG).show()
             }
         }
-    }
-
-    private fun generateOtp(): String {
-        return Random.nextInt(100000, 999999).toString()
     }
 
     private fun togglePasswordVisibility(passwordField: TextInputEditText, showPassword: Boolean) {
@@ -115,7 +163,7 @@ class SignUp : AppCompatActivity() {
         } else {
             PasswordTransformationMethod.getInstance()
         }
-        passwordField.setSelection(passwordField.text?.length ?: 0) // Keeps cursor at the end
+        passwordField.setSelection(passwordField.text?.length ?: 0)
     }
 
     private fun validateFields(
@@ -129,7 +177,6 @@ class SignUp : AppCompatActivity() {
     ): Boolean {
         var isValid = true
 
-        // Reset previous errors
         nameField.error = null
         mobileField.error = null
         emailField.error = null
@@ -144,13 +191,10 @@ class SignUp : AppCompatActivity() {
         val location = locationField.text.toString().trim()
         val password = passwordField.text.toString().trim()
 
-        // Validate Name
         if (name.isEmpty()) {
             nameField.error = "Name cannot be empty"
             isValid = false
         }
-
-        // Validate Mobile Number
         if (mobile.isEmpty()) {
             mobileField.error = "Mobile number cannot be empty"
             isValid = false
@@ -158,8 +202,6 @@ class SignUp : AppCompatActivity() {
             mobileField.error = "Enter a valid 10-digit mobile number"
             isValid = false
         }
-
-        // Validate Email
         if (email.isEmpty()) {
             emailField.error = "Email cannot be empty"
             isValid = false
@@ -167,20 +209,14 @@ class SignUp : AppCompatActivity() {
             emailField.error = "Enter a valid email address"
             isValid = false
         }
-
-        // Validate Size
         if (size.isEmpty()) {
             findViewById<TextInputLayout>(R.id.sizeInputLayout).error = "Size cannot be empty"
             isValid = false
         }
-
-        // Validate Location
         if (location.isEmpty()) {
             locationField.error = "Location cannot be empty"
             isValid = false
         }
-
-        // Validate Password
         if (password.isEmpty()) {
             passwordField.error = "Password cannot be empty"
             isValid = false
@@ -196,10 +232,20 @@ class SignUp : AppCompatActivity() {
         return isValid
     }
 
+    private fun sanitizeEmail(email: String): String {
+        return email.replace(".", "_")
+            .replace("#", "_")
+            .replace("$", "_")
+            .replace("[", "_")
+            .replace("]", "_")
+    }
+
     data class User(
         val name: String = "",
         val mobile: String = "",
         val size: String = "",
-        val location: String = ""
+        val location: String = "",
+        val rawEmail: String = "",
+        val email: String = ""
     )
 }

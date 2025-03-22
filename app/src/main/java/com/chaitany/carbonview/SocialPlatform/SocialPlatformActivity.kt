@@ -2,6 +2,7 @@ package com.chaitany.carbonview.SocialPlatform
 
 import android.app.DatePickerDialog
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -26,77 +27,90 @@ class SocialPlatformActivity : AppCompatActivity() {
     private lateinit var adapter: SocialPostAdapter
     private val posts = mutableListOf<SocialPost>()
     private var selectedImageUri: Uri? = null
-    private val rawUserEmail by lazy {
-        getSharedPreferences("UserLogin", Context.MODE_PRIVATE).getString("email", "") ?: ""
-    }
+    private var dialog: AlertDialog? = null
+    private var dialogBinding: DialogSocialPostBinding? = null
+
+    private val prefs by lazy { getSharedPreferences("UserLogin", Context.MODE_PRIVATE) }
+    private val rawUserEmail by lazy { prefs.getString("email", "") ?: "" }
     private val currentUserEmail by lazy { sanitizeEmail(rawUserEmail) }
 
     private val imagePicker = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-        selectedImageUri = uri
-        dialogBinding?.socialImagePreview?.let { Glide.with(this).load(uri).into(it) }
+        uri?.let {
+            selectedImageUri = it
+            dialogBinding?.socialImagePreview?.let { imageView ->
+                Glide.with(this).load(it).into(imageView)
+            }
+        }
     }
-
-    private var dialog: AlertDialog? = null
-    private var dialogBinding: DialogSocialPostBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySocialPlatformBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (currentUserEmail.isEmpty()) {
-            Toast.makeText(this, "Please log in first", Toast.LENGTH_SHORT).show()
-            finish()
-            return
-        }
+        if (!validateUserLogin()) return
 
+        setupUI()
         setupRecyclerView()
         fetchPostsFromFirebase()
+    }
+
+    private fun validateUserLogin(): Boolean {
+        return if (currentUserEmail.isEmpty()) {
+            Toast.makeText(this, "Please log in to continue", Toast.LENGTH_SHORT).show()
+            finish()
+            false
+        } else true
+    }
+
+    private fun setupUI() {
+        binding.user.setOnClickListener {
+            startActivity(Intent(this, UserProfileActivity::class.java))
+        }
 
         binding.fabAddPost.setOnClickListener { showPostDialog() }
     }
 
     private fun setupRecyclerView() {
-        adapter = SocialPostAdapter(posts, currentUserEmail, this) // Pass 'this' as Context
-        binding.socialRecyclerView.layoutManager = LinearLayoutManager(this)
-        binding.socialRecyclerView.adapter = adapter
+        adapter = SocialPostAdapter(posts, currentUserEmail, this)
+        binding.socialRecyclerView.apply {
+            layoutManager = LinearLayoutManager(this@SocialPlatformActivity)
+            adapter = this@SocialPlatformActivity.adapter
+        }
     }
 
     private fun fetchPostsFromFirebase() {
-        val database = FirebaseDatabase.getInstance().getReference("SocialPlatform")
-        database.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                posts.clear()
-                for (userSnapshot in snapshot.children) {
-                    val userEmail = userSnapshot.key ?: continue
-                    for (postSnapshot in userSnapshot.children) {
-                        try {
-                            val post = postSnapshot.getValue(SocialPost::class.java)
-                            if (post != null) {
-                                posts.add(post)
-                            } else {
-                                Log.e("SocialPlatform", "Null post at $userEmail/${postSnapshot.key}")
+        FirebaseDatabase.getInstance().getReference("SocialPlatform")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    posts.clear()
+                    snapshot.children.forEach { userSnapshot ->
+                        val userEmail = userSnapshot.key ?: return@forEach
+                        userSnapshot.children.forEach { postSnapshot ->
+                            try {
+                                postSnapshot.getValue(SocialPost::class.java)?.let { posts.add(it) }
+                                    ?: Log.w("SocialPlatform", "Null post at $userEmail/${postSnapshot.key}")
+                            } catch (e: Exception) {
+                                Log.e("SocialPlatform", "Parse error at $userEmail/${postSnapshot.key}: ${e.message}")
                             }
-                        } catch (e: Exception) {
-                            Log.e("SocialPlatform", "Error parsing post at $userEmail/${postSnapshot.key}: ${e.message}, value: ${postSnapshot.value}")
                         }
                     }
+                    adapter.notifyDataSetChanged()
                 }
-                adapter.notifyDataSetChanged()
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@SocialPlatformActivity, "Failed to fetch posts: ${error.message}", Toast.LENGTH_SHORT).show()
-            }
-        })
+                override fun onCancelled(error: DatabaseError) {
+                    showErrorToast("Failed to load posts: ${error.message}")
+                }
+            })
     }
 
     private fun showPostDialog() {
         dialogBinding = DialogSocialPostBinding.inflate(layoutInflater)
         dialog = AlertDialog.Builder(this)
             .setView(dialogBinding!!.root)
-            .setPositiveButton("Submit") { _, _ -> submitPost() }
-            .setNegativeButton("Cancel", null)
+            .setPositiveButton("Post") { _, _ -> submitPost() }
+            .setNegativeButton("Cancel") { _, _ -> resetDialog() }
+            .setOnDismissListener { resetDialog() }
             .create()
 
         dialogBinding?.apply {
@@ -111,7 +125,9 @@ class SocialPlatformActivity : AppCompatActivity() {
         val calendar = Calendar.getInstance()
         DatePickerDialog(
             this,
-            { _, year, month, day -> dialogBinding?.socialDate?.setText("$day/${month + 1}/$year") },
+            { _, year, month, day ->
+                dialogBinding?.socialDate?.setText(String.format("%02d/%02d/%d", day, month + 1, year))
+            },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH)
@@ -119,59 +135,88 @@ class SocialPlatformActivity : AppCompatActivity() {
     }
 
     private fun submitPost() {
-        if (currentUserEmail.isEmpty()) {
-            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
-            return
-        }
+        if (!validatePostInputs()) return
 
-        val eventName = dialogBinding?.socialEventName?.text.toString() ?: ""
-        val description = dialogBinding?.socialDescription?.text.toString() ?: ""
-        val date = dialogBinding?.socialDate?.text.toString() ?: ""
+        val eventName = dialogBinding?.socialEventName?.text.toString()
+        val description = dialogBinding?.socialDescription?.text.toString()
+        val date = dialogBinding?.socialDate?.text.toString()
 
-        if (eventName.isEmpty() || description.isEmpty() || date.isEmpty() || selectedImageUri == null) {
-            Toast.makeText(this, "Please fill all fields and upload an image", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        val storageRef = FirebaseStorage.getInstance().reference.child("social_images/${System.currentTimeMillis()}.jpg")
-        selectedImageUri?.let { uri ->
-            storageRef.putFile(uri).addOnSuccessListener {
-                storageRef.downloadUrl.addOnSuccessListener { downloadUrl ->
-                    val postId = FirebaseDatabase.getInstance().getReference("SocialPlatform").push().key ?: return@addOnSuccessListener
-                    val post = SocialPost(
-                        id = postId,
-                        email = currentUserEmail,
-                        rawEmail = rawUserEmail,
-                        eventName = eventName,
-                        description = description,
-                        imageUrl = downloadUrl.toString(),
-                        date = date
-                    )
-                    FirebaseDatabase.getInstance().getReference("SocialPlatform")
-                        .child(currentUserEmail)
-                        .child(postId)
-                        .setValue(post)
-                        .addOnSuccessListener {
-                            Toast.makeText(this, "Post uploaded successfully", Toast.LENGTH_SHORT).show()
-                            dialog?.dismiss()
-                        }
-                        .addOnFailureListener { e ->
-                            Toast.makeText(this, "Failed to upload post: ${e.message}", Toast.LENGTH_LONG).show()
-                        }
-                }.addOnFailureListener { e ->
-                    Toast.makeText(this, "Failed to get image URL: ${e.message}", Toast.LENGTH_LONG).show()
-                }
-            }.addOnFailureListener { e ->
-                Toast.makeText(this, "Failed to upload image: ${e.message}", Toast.LENGTH_LONG).show()
-            }
+        uploadImage { imageUrl ->
+            savePostToFirebase(eventName, description, date, imageUrl)
         }
     }
 
+    private fun validatePostInputs(): Boolean {
+        return when {
+            currentUserEmail.isEmpty() -> {
+                showErrorToast("User not authenticated")
+                false
+            }
+            dialogBinding?.socialEventName?.text.isNullOrEmpty() ||
+                    dialogBinding?.socialDescription?.text.isNullOrEmpty() ||
+                    dialogBinding?.socialDate?.text.isNullOrEmpty() ||
+                    selectedImageUri == null -> {
+                showErrorToast("Please complete all fields and select an image")
+                false
+            }
+            else -> true
+        }
+    }
+
+    private fun uploadImage(onSuccess: (String) -> Unit) {
+        val storageRef = FirebaseStorage.getInstance()
+            .reference.child("social_images/${System.currentTimeMillis()}.jpg")
+
+        selectedImageUri?.let { uri ->
+            storageRef.putFile(uri)
+                .addOnSuccessListener {
+                    storageRef.downloadUrl
+                        .addOnSuccessListener { onSuccess(it.toString()) }
+                        .addOnFailureListener { showErrorToast("Failed to get image URL: ${it.message}") }
+                }
+                .addOnFailureListener { showErrorToast("Image upload failed: ${it.message}") }
+        }
+    }
+
+    private fun savePostToFirebase(eventName: String, description: String, date: String, imageUrl: String) {
+        val postId = FirebaseDatabase.getInstance().getReference("SocialPlatform").push().key ?: return
+        val post = SocialPost(
+            id = postId,
+            email = currentUserEmail,
+            rawEmail = rawUserEmail,
+            eventName = eventName,
+            description = description,
+            imageUrl = imageUrl,
+            date = date
+        )
+
+        FirebaseDatabase.getInstance().getReference("SocialPlatform")
+            .child(currentUserEmail)
+            .child(postId)
+            .setValue(post)
+            .addOnSuccessListener {
+                Toast.makeText(this, "Post created successfully", Toast.LENGTH_SHORT).show()
+                dialog?.dismiss()
+            }
+            .addOnFailureListener { showErrorToast("Failed to save post: ${it.message}") }
+    }
+
+    private fun resetDialog() {
+        selectedImageUri = null
+        dialogBinding = null
+        dialog = null
+    }
+
+    private fun showErrorToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
+
     private fun sanitizeEmail(email: String): String {
-        return email.replace(".", "_")
-            .replace("#", "_")
-            .replace("$", "_")
-            .replace("[", "_")
-            .replace("]", "_")
+        return email.replace(Regex("[.#$\\[\\]]"), "_")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        resetDialog() // Clean up resources
     }
 }
