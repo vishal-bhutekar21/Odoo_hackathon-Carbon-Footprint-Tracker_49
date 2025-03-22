@@ -51,7 +51,7 @@
                 app:icon="@android:drawable/ic_menu_save"
                 app:iconGravity="start"
                 app:iconTint="@color/white"
-                app:iconPadding="8dp"
+                app:iconPadding="7dp"
                 android:contentDescription="Save emission data" />
 
             <com.google.android.material.button.MaterialButton
