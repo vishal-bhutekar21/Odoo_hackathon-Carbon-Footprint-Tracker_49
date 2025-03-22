@@ -93,6 +93,11 @@ class UserProfileActivity : AppCompatActivity() {
         binding.profilePic.setOnClickListener {
             pickImage.launch("image/*")
         }
+
+        binding.rewards.setOnClickListener{
+            var i=Intent(this,RewardsActivity::class.java)
+            startActivity(i)
+        }
     }
 
     private fun loadUserProfileFromFirebase(sanitizedEmail: String, rawEmail: String) {
