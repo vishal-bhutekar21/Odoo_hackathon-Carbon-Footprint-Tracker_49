@@ -269,6 +269,90 @@ android:padding="12dp">
     android:layout_marginTop="4dp"/>
 </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="2dp"
+        app:cardBackgroundColor="#FFFDE7"
+        android:layout_marginEnd="12dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="12dp">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_appliances" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Appliances"
+                android:textColor="#1A1A2E"
+                android:fontFamily="@font/medium"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp"/>
+
+            <TextView
+                android:id="@+id/appliances_emissions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.0 kg CO₂e"
+                android:fontFamily="@font/fontbold"
+                android:textColor="#FFCA28"
+                android:textSize="14sp"
+                android:layout_marginTop="4dp"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Card 7: Running Vehicles Emissions -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="2dp"
+        app:cardBackgroundColor="#F3E5F5"
+        android:layout_marginEnd="12dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="12dp">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_car" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Running Vehicles"
+                android:textColor="#1A1A2E"
+                android:fontFamily="@font/medium"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp"/>
+
+            <TextView
+                android:id="@+id/running_vehicles_emissions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.0 kg CO₂e"
+                android:fontFamily="@font/fontbold"
+                android:textColor="#AB47BC"
+                android:textSize="14sp"
+                android:layout_marginTop="4dp"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
     </HorizontalScrollView>
     </LinearLayout>

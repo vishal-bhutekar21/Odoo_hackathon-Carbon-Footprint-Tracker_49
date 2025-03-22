@@ -57,7 +57,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     LinearLayout adddata, uploadreport, viewreport, aiinsights, Connectiot, compare;
 
     // TextViews for the emission cards
-    TextView fuelEmissions, electricEmissions, flightEmissions, transportEmissions, industryEmissions;
+    TextView fuelEmissions, electricEmissions, flightEmissions, transportEmissions, industryEmissions,runningVehiclesEmissions,appliancesEmissions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +118,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         flightEmissions = findViewById(R.id.flight_emissions);
         transportEmissions = findViewById(R.id.transport_emissions);
         industryEmissions = findViewById(R.id.industry_emissions);
+        runningVehiclesEmissions = findViewById(R.id.running_vehicles_emissions);
+        appliancesEmissions = findViewById(R.id.appliances_emissions);
 
         auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
@@ -214,6 +216,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             float flightEmissionsValue = prefs.getFloat("flight_emissions", 0f);
             float transportEmissionsValue = prefs.getFloat("transport_emissions", 0f);
             float industryEmissionsValue = prefs.getFloat("industry_emissions", 0f);
+            float appliancesEmissionsValue = prefs.getFloat("appliances_emissions", 0f);
+            float runningVehiclesEmissionsValue = prefs.getFloat("running_vehicles_emissions", 0f);
 
             // Update the TextViews with cached or default values
             fuelEmissions.setText(String.format("%.2f kg CO₂e", fuelEmissionsValue));
@@ -221,6 +225,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             flightEmissions.setText(String.format("%.2f kg CO₂e", flightEmissionsValue));
             transportEmissions.setText(String.format("%.2f kg CO₂e", transportEmissionsValue));
             industryEmissions.setText(String.format("%.2f kg CO₂e", industryEmissionsValue));
+            appliancesEmissions.setText(String.format("%.2f kg CO₂e", appliancesEmissionsValue));
+            runningVehiclesEmissions.setText(String.format("%.2f kg CO₂e", runningVehiclesEmissionsValue));
             return;
         }
 
@@ -240,6 +246,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                 float flightEmissionsValue = 0f;
                 float transportEmissionsValue = 0f;
                 float industryEmissionsValue = 0f;
+                float appliancesEmissionsValue = 0f;
+                float runningVehiclesEmissionsValue = 0f;
 
                 // Fetch each category's emissions
                 if (snapshot.child("fuel_emissions").exists()) {
@@ -257,6 +265,12 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                 if (snapshot.child("industry_emissions").exists()) {
                     industryEmissionsValue = snapshot.child("industry_emissions").child("emissions").getValue(Float.class);
                 }
+                if (snapshot.child("device_emissions").exists()) {
+                    appliancesEmissionsValue = snapshot.child("device_emissions").child("emissions").getValue(Float.class);
+                }
+                if (snapshot.child("vehicle_emissions").exists()) {
+                    runningVehiclesEmissionsValue = snapshot.child("vehicle_emissions").child("emissions").getValue(Float.class);
+                }
 
                 // Update the TextViews in the cards
                 fuelEmissions.setText(String.format("%.2f kg CO₂e", fuelEmissionsValue));
@@ -264,6 +278,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                 flightEmissions.setText(String.format("%.2f kg CO₂e", flightEmissionsValue));
                 transportEmissions.setText(String.format("%.2f kg CO₂e", transportEmissionsValue));
                 industryEmissions.setText(String.format("%.2f kg CO₂e", industryEmissionsValue));
+                appliancesEmissions.setText(String.format("%.2f kg CO₂e", appliancesEmissionsValue));
+                runningVehiclesEmissions.setText(String.format("%.2f kg CO₂e", runningVehiclesEmissionsValue));
 
                 // Cache the values in SharedPreferences
                 SharedPreferences prefs = getSharedPreferences("EmissionData", Context.MODE_PRIVATE);
@@ -273,6 +289,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                 editor.putFloat("flight_emissions", flightEmissionsValue);
                 editor.putFloat("transport_emissions", transportEmissionsValue);
                 editor.putFloat("industry_emissions", industryEmissionsValue);
+                editor.putFloat("appliances_emissions", appliancesEmissionsValue);
+                editor.putFloat("running_vehicles_emissions", runningVehiclesEmissionsValue);
                 editor.apply();
 
                 // Dismiss the loading dialog after the first data fetch
@@ -296,6 +314,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                 float flightEmissionsValue = prefs.getFloat("flight_emissions", 0f);
                 float transportEmissionsValue = prefs.getFloat("transport_emissions", 0f);
                 float industryEmissionsValue = prefs.getFloat("industry_emissions", 0f);
+                float appliancesEmissionsValue = prefs.getFloat("appliances_emissions", 0f);
+                float runningVehiclesEmissionsValue = prefs.getFloat("running_vehicles_emissions", 0f);
 
                 // Update the TextViews with cached or default values
                 fuelEmissions.setText(String.format("%.2f kg CO₂e", fuelEmissionsValue));
@@ -303,6 +323,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                 flightEmissions.setText(String.format("%.2f kg CO₂e", flightEmissionsValue));
                 transportEmissions.setText(String.format("%.2f kg CO₂e", transportEmissionsValue));
                 industryEmissions.setText(String.format("%.2f kg CO₂e", industryEmissionsValue));
+                appliancesEmissions.setText(String.format("%.2f kg CO₂e", appliancesEmissionsValue));
+                runningVehiclesEmissions.setText(String.format("%.2f kg CO₂e", runningVehiclesEmissionsValue));
             }
         });
     }
