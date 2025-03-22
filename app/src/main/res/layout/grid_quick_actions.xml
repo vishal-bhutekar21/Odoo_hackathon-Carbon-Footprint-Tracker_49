@@ -1,263 +1,399 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-    app:cardCornerRadius="20dp"
-    app:cardBackgroundColor="@color/white"
-    app:strokeColor="#61B8F6"
-    app:strokeWidth=".5dp">
 
-    <GridLayout
+
+
+    >
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:columnCount="3"
-        android:rowCount="2"
+        android:orientation="vertical">
 
-        android:background="@color/white"
-        android:layout_margin="8dp"
-        android:gravity="center">
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_gravity="top"
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@color/white"
+        app:strokeColor="#61B8F6"
+        app:strokeWidth=".5dp">
 
-        <!-- Add Emission -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="0dp"
-            android:layout_height="120dp"
-            android:layout_columnWeight="1"
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="3"
+            android:rowCount="2"
+
+            android:background="@color/white"
             android:layout_margin="8dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="6dp"
-            app:cardBackgroundColor="#EFFF9800">
+            android:gravity="center">
 
+            <!-- Add Emission -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="6dp"
+                app:cardBackgroundColor="#EFFF9800">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:id="@+id/add_data"
+                    android:layout_gravity="center"
+
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/adddata" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Add Data"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-condensed-light"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:gravity="center"
+                        android:layout_marginTop="8dp"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="6dp"
+                android:layout_gravity="bottom"
+                app:cardBackgroundColor="#4CAF50">
+
+                <LinearLayout
+                    android:id="@+id/compare"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/scanbills" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Scan Bills"
+                        android:textStyle="bold"
+
+                        android:fontFamily="sans-serif-condensed-light"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:gravity="center"
+                        android:layout_marginTop="8dp"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="6dp"
+                app:cardBackgroundColor="#03A9F4">
+
+                <LinearLayout
+                    android:id="@+id/connectiot"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="45dp"
+                        android:src="@drawable/connectiot" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Connect Iot"
+                        android:textStyle="bold"
+
+                        android:fontFamily="sans-serif-condensed-light"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:gravity="center"
+                        android:layout_marginTop="8dp"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+
+
+            <!-- Upload Report -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="6dp"
+                app:cardBackgroundColor="#EB3F51B5">
+
+                <LinearLayout
+                    android:id="@+id/uploadreport"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/fileupload" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Upload Report"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-condensed-light"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:gravity="center"
+                        android:layout_marginTop="8dp"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- View Reports -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="6dp"
+                app:cardBackgroundColor="#FA009688">
+
+                <LinearLayout
+                    android:id="@+id/viewreport"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="45dp"
+                        android:src="@drawable/viewreport" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="View Report"
+                        android:textStyle="bold"
+
+                        android:fontFamily="sans-serif-condensed-light"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:gravity="center"
+                        android:layout_marginTop="8dp"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- AI Insights -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="6dp"
+                app:cardBackgroundColor="#673AB7">
+
+                <LinearLayout
+                    android:id="@+id/aiinsights"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="45dp"
+                        android:src="@drawable/aiinsights" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ai Insights"
+                        android:textStyle="bold"
+
+                        android:fontFamily="sans-serif-condensed-light"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:gravity="center"
+                        android:layout_marginTop="8dp"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Emission Forecast -->
+
+            <!-- Industry Compare -->
+
+
+        </GridLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+    <com.google.android.material.card.MaterialCardView
+
+
+
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@color/white"
+        app:strokeColor="#61B8F6"
+        app:strokeWidth=".5dp"
+
+
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/primary">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- Header -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:id="@+id/add_data"
-                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="16dp">
 
-                android:orientation="vertical"
-                android:padding="14dp">
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/adddata" />
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:cardBackgroundColor="#26FFFFFF"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp"
+                    android:layout_marginEnd="12dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="🤖"
+                        android:gravity="center"
+                        android:textSize="22sp"/>
+                </com.google.android.material.card.MaterialCardView>
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Add Data"
+                    android:text="AI Carbon Insights"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
                     android:textStyle="bold"
-                    android:fontFamily="sans-serif-condensed-light"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:gravity="center"
-                    android:layout_marginTop="8dp"/>
+                    android:letterSpacing="0.02"
+                    android:shadowColor="#40000000"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="4"/>
             </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
 
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="0dp"
-            android:layout_height="120dp"
-            android:layout_columnWeight="1"
-            android:layout_margin="8dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="6dp"
-            app:cardBackgroundColor="#4CAF50">
-
-            <LinearLayout
-                android:id="@+id/compare"
+            <!-- Description -->
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:text="Analysis of your supply chain shows 30% of emissions come from third-party logistics. Switching to local suppliers could reduce Scope 3 emissions by up to 15%."
+                android:textColor="#E6FFFFFF"
+                android:textSize="14sp"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginBottom="20dp"/>
 
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/scanbills" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Scan Bills"
-                    android:textStyle="bold"
-
-                    android:fontFamily="sans-serif-condensed-light"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:gravity="center"
-                    android:layout_marginTop="8dp"/>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="0dp"
-            android:layout_height="120dp"
-            android:layout_columnWeight="1"
-            android:layout_margin="8dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="6dp"
-            app:cardBackgroundColor="#03A9F4">
-
+            <!-- Buttons -->
             <LinearLayout
-                android:id="@+id/connectiot"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
 
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="45dp"
-                    android:src="@drawable/connectiot" />
-
-                <TextView
-                    android:layout_width="match_parent"
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Connect Iot"
-                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:text="View Details"
+                    android:textSize="12sp"
+                    android:textColor="#38BDF8"
+                    app:backgroundTint="#FFFFFF"
+                    app:cornerRadius="12dp"
+                    app:strokeColor="#38BDF8"
+                    app:strokeWidth="2dp"
+                    android:padding="12dp"
+                    android:layout_marginEnd="8dp"
+                    app:rippleColor="#8038BDF8"
+                    android:letterSpacing="0.03"
+                    app:icon="@drawable/adddata"
+                    app:iconGravity="start"
+                    app:iconPadding="8dp"
+                    app:iconTint="#38BDF8"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 
-                    android:fontFamily="sans-serif-condensed-light"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:gravity="center"
-                    android:layout_marginTop="8dp"/>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-
-
-        <!-- Upload Report -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="0dp"
-            android:layout_height="120dp"
-            android:layout_columnWeight="1"
-            android:layout_margin="8dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="6dp"
-            app:cardBackgroundColor="#EB3F51B5">
-
-            <LinearLayout
-                android:id="@+id/uploadreport"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:layout_gravity="center"
-
-                android:orientation="vertical"
-                android:padding="14dp">
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/fileupload" />
-
-                <TextView
-                    android:layout_width="match_parent"
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Upload Report"
-                    android:textStyle="bold"
-                    android:fontFamily="sans-serif-condensed-light"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:gravity="center"
-                    android:layout_marginTop="8dp"/>
+                    android:layout_weight="1"
+                    android:text="Implement"
+                    android:textSize="12sp"
+                    android:textColor="#FFFFFF"
+                    app:backgroundTint="#0EA5E9"
+                    app:cornerRadius="12dp"
+                    android:padding="12dp"
+                    android:layout_marginStart="8dp"
+                    app:rippleColor="#80FFFFFF"
+                    android:letterSpacing="0.03"
+                    app:icon="@drawable/ic_add"
+                    app:iconGravity="start"
+                    app:iconPadding="8dp"
+                    app:iconTint="#FFFFFF"
+                    style="@style/Widget.MaterialComponents.Button"/>
             </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- View Reports -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="0dp"
-            android:layout_height="120dp"
-            android:layout_columnWeight="1"
-            android:layout_margin="8dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="6dp"
-            app:cardBackgroundColor="#FA009688">
-
-            <LinearLayout
-                android:id="@+id/viewreport"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:layout_gravity="center"
-
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="45dp"
-                    android:src="@drawable/viewreport" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="View Report"
-                    android:textStyle="bold"
-
-                    android:fontFamily="sans-serif-condensed-light"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:gravity="center"
-                    android:layout_marginTop="8dp"/>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- AI Insights -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="0dp"
-            android:layout_height="120dp"
-            android:layout_columnWeight="1"
-            android:layout_margin="8dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="6dp"
-            app:cardBackgroundColor="#673AB7">
-
-            <LinearLayout
-                android:id="@+id/aiinsights"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:layout_gravity="center"
-
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="45dp"
-                    android:src="@drawable/aiinsights" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Ai Insights"
-                    android:textStyle="bold"
-
-                    android:fontFamily="sans-serif-condensed-light"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:gravity="center"
-                    android:layout_marginTop="8dp"/>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Emission Forecast -->
-
-        <!-- Industry Compare -->
-
-
-    </GridLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>
