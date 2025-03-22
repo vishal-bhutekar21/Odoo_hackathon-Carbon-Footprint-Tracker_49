@@ -102,11 +102,11 @@ public class TransportEmission extends AppCompatActivity implements AdapterView.
         // Get current month in "YYYY-MMMM" format (e.g., "2025-March")
         currentMonth = new SimpleDateFormat("yyyy-MMMM", Locale.getDefault()).format(new Date());
 
-        // Initialize Firebase Realtime Database with month-specific node
+        String safeEmail = email.replace(".", ",");
+        // Initialize Firebase Database with month-specific node
         databaseReference = FirebaseDatabase.getInstance()
-                .getReference("carbonviewcalculations/manualaddedemissions/transportemissions/" + currentMonth);
-
-        // Set emission factors in UI
+                .getReference("carbonviewcalculations/"+safeEmail+"/manualaddedemissions/electricalemissions/" + currentMonth);
+// Set emission factors in UI
         truckFactor.setText(String.format("Truck: %.2f kg CO₂/ton-km", EMISSION_FACTOR_TRUCK));
         shipFactor.setText(String.format("Ship: %.2f kg CO₂/ton-km", EMISSION_FACTOR_SHIP));
         trainFactor.setText(String.format("Train: %.2f kg CO₂/ton-km", EMISSION_FACTOR_TRAIN));

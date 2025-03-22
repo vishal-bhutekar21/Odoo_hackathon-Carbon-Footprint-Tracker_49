@@ -103,9 +103,10 @@ public class FlightEmission extends AppCompatActivity {
         // Get current month in "YYYY-MMMM" format (e.g., "2025-March")
         currentMonth = new SimpleDateFormat("yyyy-MMMM", Locale.getDefault()).format(new Date());
 
+        String safeEmail = email.replace(".", ",");
         // Initialize Firebase Database with month-specific node
         databaseReference = FirebaseDatabase.getInstance()
-                .getReference("carbonviewcalculations/manualaddedemissions/flightemissions/" + currentMonth);
+                .getReference("carbonviewcalculations/"+safeEmail+"/manualaddedemissions/electricalemissions/" + currentMonth);
 
         // Load total emissions for the current month
         loadTotalEmissions();

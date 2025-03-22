@@ -23,7 +23,6 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.chaitany.carbonview.SocialPlatform.SocialPlatformActivity;
-import com.chaitany.carbonview.UserRankingbyCorbonEmmitions.UserRankings;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -40,9 +39,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -55,8 +52,6 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
     private DatabaseReference databaseReference;
     private StorageReference storageReference;
-
-    private DatabaseReference userRef;
 
 
 
@@ -84,28 +79,13 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             return insets;
         });
 
-        String email = getSharedPreferences("UserLogin", Context.MODE_PRIVATE)
-                .getString("email", null);
-        if (email != null) {
-            String safeEmail = email.replace(".", ",");
-            userRef = FirebaseDatabase.getInstance()
-                    .getReference("users")
-                    .child(safeEmail)
-                    .child("emissions_data")
-                    .child("log_emissions");
-        } else {
-            Log.e("IndustryEmission", "Email not found in SharedPreferences");
-            Toast.makeText(this, "User email not found", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
         // Load user information
         loadUserInfo();
     }
 
     private void setUponClickListener() {
         adddata.setOnClickListener(view -> startActivity(new Intent(Dashboard.this, AddData.class)));
-        uploadreport.setOnClickListener(view -> startActivity(new Intent(Dashboard.this, UserRankings.class)));
+        uploadreport.setOnClickListener(view -> startActivity(new Intent(Dashboard.this, UploadReport.class)));
         viewreport.setOnClickListener(view -> startActivity(new Intent(Dashboard.this, CompanyFinalEmissionData.class)));
         aiinsights.setOnClickListener(view -> startActivity(new Intent(Dashboard.this, EstimationGrid.class)));
         Connectiot.setOnClickListener(view -> startActivity(new Intent(Dashboard.this, ConnectIOT.class)));
@@ -154,14 +134,11 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                     double newScope3 = scope3 * fileCount;
 
                     double totalEmissions = newScope1 + newScope2 + newScope3;
-                    storeLogEmissions(totalEmissions,getApplicationContext());
                     txtScope1Value.setText(String.format("%.2f Kg", newScope1));
                     txtScope2Value.setText(String.format("%.2f Kg", newScope2));
                     txtScope3Value.setText(String.format("%.2f Kg", newScope3));
                     txtTodayEmission.setText(String.format("%.2f Kg CO2", totalEmissions));
                     txtMonthEmission.setText(String.format("%.2f Kg CO2", totalEmissions));
-
-
 
 
                     updatePieChart(newScope1, newScope2, newScope3);
@@ -179,28 +156,6 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         // Set click listener for menu icon
             menuIcon.setOnClickListener(v -> toggleNavigationDrawer());
         }
-    }
-
-    private void storeLogEmissions(double totalEmissions,Context context) {
-        if (userRef == null) {
-            Log.e("EmissionLogger", "Database reference not initialized due to missing email");
-            Toast.makeText(context, "Cannot store emissions: User not identified", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        Map<String, Object> emissionsData = new HashMap<>();
-        emissionsData.put("emissions", totalEmissions);
-
-
-        userRef.setValue(emissionsData)
-                .addOnSuccessListener(aVoid -> {
-                    Log.d("FirebaseSuccess", "Log emissions stored successfully: " + totalEmissions + " kg CO₂");
-                    Toast.makeText(context, "Log emissions stored: " + String.format("%.2f", totalEmissions) + " kg CO₂", Toast.LENGTH_SHORT).show();
-                })
-                .addOnFailureListener(e -> {
-                    Log.e("FirebaseError", "Error storing log emissions", e);
-                    Toast.makeText(context, "Failed to store log emissions: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
     }
 
     private void updatePieChart(double scope1, double scope2, double scope3) {

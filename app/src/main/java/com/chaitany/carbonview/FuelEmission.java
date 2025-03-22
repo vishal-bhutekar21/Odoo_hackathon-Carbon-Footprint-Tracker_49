@@ -87,11 +87,11 @@ public class FuelEmission extends AppCompatActivity {
         // Get current month in "YYYY-MMMM" format (e.g., "2025-March")
         currentMonth = new SimpleDateFormat("yyyy-MMMM", Locale.getDefault()).format(new Date());
 
+        String safeEmail = email.replace(".", ",");
         // Initialize Firebase Database with month-specific node
         databaseReference = FirebaseDatabase.getInstance()
-                .getReference("carbonviewcalculations/manualaddedemissions/fuelemissions/" + currentMonth);
-
-        // Populate the fuel type spinner
+                .getReference("carbonviewcalculations/"+safeEmail+"/manualaddedemissions/electricalemissions/" + currentMonth);
+// Populate the fuel type spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.fuel_types, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
