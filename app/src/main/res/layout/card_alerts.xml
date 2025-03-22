@@ -1,184 +1,276 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F5F5F5"
+    android:padding="16dp">
+
+    <!-- Main MaterialCardView -->
+<com.google.android.material.card.MaterialCardView
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+app:cardCornerRadius="16dp"
+app:cardElevation="4dp"
+app:cardBackgroundColor="#FFFFFF"
+android:layout_marginBottom="16dp">
+
+<LinearLayout
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-    app:cardCornerRadius="20dp"
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    app:cardBackgroundColor="@color/white"
-    app:strokeColor="#61B8F6"
-    app:strokeWidth=".5dp">
+<!-- Header -->
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Your Carbon Footprint"
+    android:textColor="#1A1A2E"
+    android:fontFamily="@font/fontbold"
+    android:textSize="20sp"
+    android:textStyle="bold"
+    android:layout_marginBottom="12dp"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+<!-- Horizontal ScrollView -->
+<HorizontalScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:scrollbars="none">
+
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingVertical="8dp">
+
+<!-- Card 1: Fuel Emissions -->
+<com.google.android.material.card.MaterialCardView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="#FFEBEE"
+android:layout_marginEnd="12dp">
+
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="12dp">
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_feul"
+         />
+
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:text="Fuel"
+        android:textColor="#1A1A2E"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/medium"
+        android:layout_marginTop="8dp"/>
 
-        <!-- Header -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="8dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Alerts and Notifications"
-                android:textColor="#212121"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:id="@+id/txtAlertCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:background="#F44336"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="2dp"
-                android:text="3 New"
-                android:textColor="#FFFFFF"
-                android:textSize="12sp"
-                android:fontFamily="sans-serif-medium"
-                android:gravity="center"
-                android:ellipsize="end"
-                android:maxLines="1"/>
-        </LinearLayout>
-
-        <!-- High Emission Alert -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_aleret_red"
-            android:orientation="horizontal"
-            android:padding="12dp"
-            android:layout_marginTop="8dp">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/email"
-                android:tint="#D32F2F"
-                android:contentDescription="Warning icon"/>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="12dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="High Emissions Detected!"
-                    android:textColor="#D32F2F"
-                    android:textSize="14sp"
-                    android:fontFamily="sans-serif-medium"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Scope 1 emissions exceeded threshold by 15%"
-                    android:textColor="#757575"
-                    android:textSize="12sp"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Compliance Alert -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_alert_yellow"
-            android:orientation="horizontal"
-            android:padding="12dp"
-            android:layout_marginTop="8dp">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/email"
-                android:tint="#F57C00"
-                android:contentDescription="Deadline icon"/>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="12dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Compliance Deadline"
-                    android:textColor="#F57C00"
-                    android:textSize="14sp"
-                    android:fontFamily="sans-serif-medium"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="GHG Protocol report due in 5 days"
-                    android:textColor="#757575"
-                    android:textSize="12sp"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Last updated: 2 hours ago"
-                    android:textColor="#9E9E9E"
-                    android:textSize="10sp"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Sustainability Tip -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_alert_green"
-            android:orientation="horizontal"
-            android:padding="12dp"
-            android:layout_marginTop="8dp">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/email"
-                android:tint="#2E7D32"
-                android:contentDescription="Eco tip icon"/>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="12dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Sustainability Tip"
-                    android:textColor="#2E7D32"
-                    android:textSize="14sp"
-                    android:fontFamily="sans-serif-medium"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Switch to LED lighting to reduce Scope 2 emissions"
-                    android:textColor="#757575"
-                    android:textSize="12sp"/>
-            </LinearLayout>
-        </LinearLayout>
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/fuel_emissions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="4.2 kg CO₂e"
+        android:textColor="#EF5350"
+        android:fontFamily="@font/fontbold"
+        android:textSize="14sp"
+        android:layout_marginTop="4dp"/>
+</LinearLayout>
 </com.google.android.material.card.MaterialCardView>
+
+    <!-- Card 2: Electric Emissions -->
+<com.google.android.material.card.MaterialCardView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+app:cardCornerRadius="12dp"
+app:cardElevation="2dp"
+app:cardBackgroundColor="#E8F5E9"
+    android:layout_marginEnd="12dp">
+
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+android:orientation="vertical"
+android:gravity="center"
+android:padding="12dp">
+
+<ImageView
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:src="@drawable/ic_electricity"
+ />
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Electric"
+    android:textColor="#1A1A2E"
+    android:textSize="16sp"
+    android:fontFamily="@font/medium"
+
+    android:textStyle="bold"
+    android:layout_marginTop="8dp"/>
+
+<TextView
+    android:id="@+id/electric_emissions"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="2.8 kg CO₂e"
+    android:fontFamily="@font/fontbold"
+    android:textColor="#4CAF50"
+    android:textSize="14sp"
+    android:layout_marginTop="4dp"/>
+</LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Card 3: Flight Emissions -->
+<com.google.android.material.card.MaterialCardView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+app:cardCornerRadius="12dp"
+app:cardElevation="2dp"
+app:cardBackgroundColor="#E3F2FD"
+    android:layout_marginEnd="12dp">
+
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+android:orientation="vertical"
+android:gravity="center"
+android:padding="12dp">
+
+<ImageView
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:src="@drawable/ic_flight"
+    />
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Flight"
+    android:fontFamily="@font/medium"
+
+    android:textColor="#1A1A2E"
+    android:textSize="16sp"
+    android:textStyle="bold"
+    android:layout_marginTop="8dp"/>
+
+<TextView
+    android:id="@+id/flight_emissions"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="5.1 kg CO₂e"
+    android:fontFamily="@font/fontbold"
+    android:textColor="#2196F3"
+    android:textSize="14sp"
+    android:layout_marginTop="4dp"/>
+</LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Card 4: Transport Emissions -->
+<com.google.android.material.card.MaterialCardView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+app:cardCornerRadius="12dp"
+app:cardElevation="2dp"
+app:cardBackgroundColor="#E0F7FA"
+    android:layout_marginEnd="12dp">
+
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+android:gravity="center"
+android:padding="12dp">
+
+<ImageView
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:src="@drawable/ic_transport"
+     />
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Transport"
+    android:textColor="#1A1A2E"
+    android:fontFamily="@font/medium"
+
+    android:textSize="16sp"
+    android:textStyle="bold"
+    android:layout_marginTop="8dp"/>
+
+<TextView
+    android:id="@+id/transport_emissions"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="3.5 kg CO₂e"
+    android:fontFamily="@font/fontbold"
+    android:textColor="#00ACC1"
+    android:textSize="14sp"
+    android:layout_marginTop="4dp"/>
+</LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Card 5: Industry Emissions -->
+<com.google.android.material.card.MaterialCardView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+app:cardCornerRadius="12dp"
+app:cardElevation="2dp"
+app:cardBackgroundColor="#FCE4EC"
+    android:layout_marginEnd="12dp">
+
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+android:orientation="vertical"
+android:gravity="center"
+android:padding="12dp">
+
+<ImageView
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:src="@drawable/ic_industry"
+     />
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Industry"
+    android:textColor="#1A1A2E"
+    android:fontFamily="@font/medium"
+
+    android:textSize="16sp"
+    android:textStyle="bold"
+    android:layout_marginTop="8dp"/>
+
+<TextView
+    android:id="@+id/industry_emissions"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="6.0 kg CO₂e"
+    android:fontFamily="@font/fontbold"
+    android:textColor="#F06292"
+    android:textSize="14sp"
+    android:layout_marginTop="4dp"/>
+</LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+    </HorizontalScrollView>
+    </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
