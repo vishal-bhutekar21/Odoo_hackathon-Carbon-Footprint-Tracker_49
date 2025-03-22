@@ -44,6 +44,9 @@
         android:theme="@style/Theme.AgeWellSuper"
         tools:targetApi="31">
         <activity
+            android:name=".AISuggestions.GetOnlyAiResponse"
+            android:exported="false" />
+        <activity
             android:name=".SocialPlatform.UserProfileActivity"
             android:exported="false" />
         <activity
@@ -159,12 +162,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-        <activity android:name=".AISuggestions.GetAiSuggestions"
-            android:exported="true">
-
-        </activity>
+        <activity
+            android:name=".AISuggestions.GetAiSuggestions"
+            android:exported="true"></activity>
     </application>
 
 </manifest>

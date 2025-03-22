@@ -181,40 +181,42 @@ class GetAiSuggestions : AppCompatActivity() {
             Log.d("GetAiSuggestions", "Showing loading dialog")
         }
 
-        val sectionsToFetch = listOf(
+        val sectionsToFetch = intent.getStringExtra("prompt")?.let { prompt ->
+            listOf("Custom Prompt" to prompt) // Wrap the string in a Pair to match the List<Pair<String, String>> type
+        } ?: listOf(
             "Emission Analysis" to """
-                You are an expert in carbon emission reduction for small-to-medium businesses in the manufacturing industry. Analyze the following carbon emission data for a manufacturing business:
+        You are an expert in carbon emission reduction for small-to-medium businesses in the manufacturing industry. Analyze the following carbon emission data for a manufacturing business:
 
-                - Scope 1: ${data.scope1} kg CO₂ (direct emissions from owned or controlled sources, e.g., fuel combustion)
-                - Scope 2: ${data.scope2} kg CO₂ (indirect emissions from purchased electricity, steam, heating, or cooling)
-                - Scope 3: ${data.scope3} kg CO₂ (other indirect emissions, e.g., business travel, supply chain)
-                - Devices: ${data.devices.joinToString { "${it.name} emits ${it.emissionKg} kg CO₂" }}
+        - Scope 1: ${data.scope1} kg CO₂ (direct emissions from owned or controlled sources, e.g., fuel combustion)
+        - Scope 2: ${data.scope2} kg CO₂ (indirect emissions from purchased electricity, steam, heating, or cooling)
+        - Scope 3: ${data.scope3} kg CO₂ (other indirect emissions, e.g., business travel, supply chain)
+        - Devices: ${data.devices.joinToString { "${it.name} emits ${it.emissionKg} kg CO₂" }}
 
-                **Important**: Use the exact values provided above for Scope 1, Scope 2, Scope 3, and device emissions in your analysis and calculations. Do not modify or assume different values for these data points.
+        **Important**: Use the exact values provided above for Scope 1, Scope 2, Scope 3, and device emissions in your analysis and calculations. Do not modify or assume different values for these data points.
 
-                Provide a detailed response for the following section, formatted for a professional UI with proper alignment, spacing, and typography. Use Markdown for formatting (e.g., *text* for bold, **Section Header** for section headers). Do NOT use HTML tags (e.g., <br>), numbering (e.g., "1.", "2."), or any other non-Markdown formatting. Ensure all paragraphs are separated by blank lines for clarity.
+        Provide a detailed response for the following section, formatted for a professional UI with proper alignment, spacing, and typography. Use Markdown for formatting (e.g., *text* for bold, **Section Header** for section headers). Do NOT use HTML tags (e.g., <br>), numbering (e.g., "1.", "2."), or any other non-Markdown formatting. Ensure all paragraphs are separated by blank lines for clarity.
 
-                **${"Emission Analysis"}**:
+        **${"Emission Analysis"}**:
 
-                - Ensure a blank line between the section header and the first paragraph.
-                - Identify which category (Scope 1, Scope 2, or Scope 3) contributes the most emissions and analyze the contribution of each scope.
-                - Compare the emissions to typical benchmarks for a small-to-medium manufacturing business (e.g., average Scope 1 emissions are around 3000 kg CO₂ per year).
-                - Highlight key contributors among the devices and their impact on the overall emissions. Start this section with *Regarding devices* in bold, followed by a blank line.
-                - Ensure each paragraph within this section is separated by a blank line.
-            """.trimIndent(),
+        - Ensure a blank line between the section header and the first paragraph.
+        - Identify which category (Scope 1, Scope 2, or Scope 3) contributes the most emissions and analyze the contribution of each scope.
+        - Compare the emissions to typical benchmarks for a small-to-medium manufacturing business (e.g., average Scope 1 emissions are around 3000 kg CO₂ per year).
+        - Highlight key contributors among the devices and their impact on the overall emissions. Start this section with *Regarding devices* in bold, followed by a blank line.
+        - Ensure each paragraph within this section is separated by a blank line.
+    """.trimIndent(),
             "Detailed Suggestions" to """
-                You are an expert in carbon emission reduction for small-to-medium businesses in the manufacturing industry. Based on the following carbon emission data for a manufacturing business:
+        You are an expert in carbon emission reduction for small-to-medium businesses in the manufacturing industry. Based on the following carbon emission data for a manufacturing business:
 
-                - Scope 1: ${data.scope1} kg CO₂ (direct emissions from owned or controlled sources, e.g., fuel combustion)
-                - Scope 2: ${data.scope2} kg CO₂ (indirect emissions from purchased electricity, steam, heating, or cooling)
-                - Scope 3: ${data.scope3} kg CO₂ (other indirect emissions, e.g., business travel, supply chain)
-                - Devices: ${data.devices.joinToString { "${it.name} emits ${it.emissionKg} kg CO₂" }}
+        - Scope 1: ${data.scope1} kg CO₂ (direct emissions from owned or controlled sources, e.g., fuel combustion)
+        - Scope 2: ${data.scope2} kg CO₂ (indirect emissions from purchased electricity, steam, heating, or cooling)
+        - Scope 3: ${data.scope3} kg CO₂ (other indirect emissions, e.g., business travel, supply chain)
+        - Devices: ${data.devices.joinToString { "${it.name} emits ${it.emissionKg} kg CO₂" }}
 
-                **Important**: Use the exact values provided above for Scope 1, Scope 2, Scope 3, and device emissions in your analysis and calculations. Do not modify or assume different values for these data points.
+        **Important**: Use the exact values provided above for Scope 1, Scope 2, Scope 3, and device emissions in your analysis and calculations. Do not modify or assume different values for these data points.
 
-                give me suggetions for reducing this three carbon emmisions """
+        give me suggetions for reducing this three carbon emmisions
+    """.trimIndent()
         )
-
         CoroutineScope(Dispatchers.IO).launch {
             sections.clear()
             for ((sectionTitle, prompt) in sectionsToFetch) {

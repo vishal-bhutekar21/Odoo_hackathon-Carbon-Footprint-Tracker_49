@@ -1,5 +1,6 @@
 package com.chaitany.carbonview.IOTIntegration
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,6 +10,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.chaitany.carbonview.AISuggestions.GetAiSuggestions
+import com.chaitany.carbonview.AISuggestions.GetOnlyAiResponse
 import com.chaitany.carbonview.IOTIntegration.Adapter.ManageDeviceAdapter
 import com.chaitany.carbonview.IOTIntegration.Model.RealtimeDevice
 import com.chaitany.carbonview.R
@@ -45,12 +48,24 @@ class ManageDevices : AppCompatActivity() {
         // Fetch devices and update totals
         fetchDevices()
 
-
-
         // Get Suggestions button action
         btnGetSuggestions.setOnClickListener {
-            Toast.makeText(this, "Suggestions: Reduce usage during peak hours!", Toast.LENGTH_LONG).show()
-            // Add more sophisticated suggestion logic here if needed
+            val deviceEmissions = deviceList.joinToString(separator = "\n") {
+                "- ${it.deviceName}: ${String.format("%.2f", it.totalEmissions)} kg CO₂"
+            }
+            val prompt = """
+        You are an expert in carbon emission reduction for small-to-medium businesses in the manufacturing industry. Based on the following device emission data:
+
+        $deviceEmissions
+
+        Provide detailed suggestions for reducing carbon emissions from these devices. Format your response in Markdown with clear sections and practical recommendations and also format the response for disaplying on mobile use emojis and bold text and other text styling afor bstter response.
+        and also give articles and give youtube videos links but you always give a videos which is not alvailable on youtube lol so verity its available and then send  give direct links of 2 articles from internet and two yt videos links
+    """.trimIndent()
+
+            val intent = Intent(this, GetOnlyAiResponse::class.java).apply {
+                putExtra("prompt", prompt)
+            }
+            startActivity(intent)
         }
     }
 
@@ -76,7 +91,6 @@ class ManageDevices : AppCompatActivity() {
                 updateTotals(totalEmissions, totalTimeHours)
 
                 // Update switch states
-
                 deviceAdapter.notifyDataSetChanged()
             }
 
