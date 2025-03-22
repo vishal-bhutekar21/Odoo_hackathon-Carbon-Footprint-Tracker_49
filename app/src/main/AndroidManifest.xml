@@ -44,8 +44,11 @@
         android:theme="@style/Theme.AgeWellSuper"
         tools:targetApi="31">
         <activity
+            android:name=".SocialPlatform.UserProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".SocialPlatform.SocialPlatformActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".CompanyFinalEmissionData"
             android:exported="false" />
@@ -55,8 +58,6 @@
         <activity
             android:name=".IOTIntegration.ManageDevices"
             android:exported="false" />
-
-
         <activity
             android:name=".VehicleReport"
             android:exported="false" />

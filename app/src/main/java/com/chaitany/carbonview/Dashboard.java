@@ -22,6 +22,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.chaitany.carbonview.SocialPlatform.SocialPlatformActivity;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -88,7 +89,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         viewreport.setOnClickListener(view -> startActivity(new Intent(Dashboard.this, CompanyFinalEmissionData.class)));
         aiinsights.setOnClickListener(view -> startActivity(new Intent(Dashboard.this, EstimationGrid.class)));
         Connectiot.setOnClickListener(view -> startActivity(new Intent(Dashboard.this, ConnectIOT.class)));
-        compare.setOnClickListener(view -> startActivity(new Intent(Dashboard.this, Compare.class)));
+        compare.setOnClickListener(view -> startActivity(new Intent(Dashboard.this, SocialPlatformActivity.class)));
     }
 
     private void initializeViews() {
