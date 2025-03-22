@@ -9,6 +9,7 @@
     <!-- Main Content Area -->
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/main"
+        android:layout_marginTop="2dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
@@ -21,7 +22,7 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="82dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
