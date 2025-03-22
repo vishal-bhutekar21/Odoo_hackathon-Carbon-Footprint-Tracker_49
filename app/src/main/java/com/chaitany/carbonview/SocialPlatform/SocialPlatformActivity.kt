@@ -2,6 +2,7 @@ package com.chaitany.carbonview.SocialPlatform
 
 import android.app.DatePickerDialog
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -48,6 +49,11 @@ class SocialPlatformActivity : AppCompatActivity() {
             Toast.makeText(this, "Please log in first", Toast.LENGTH_SHORT).show()
             finish()
             return
+        }
+
+        binding.user.setOnClickListener{
+            var i=Intent(this,UserProfileActivity::class.java)
+            startActivity(i)
         }
 
         setupRecyclerView()

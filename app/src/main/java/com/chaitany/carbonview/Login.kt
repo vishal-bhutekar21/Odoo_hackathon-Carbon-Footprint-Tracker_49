@@ -7,12 +7,15 @@ import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.view.View
 import android.widget.CheckBox
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class Login : AppCompatActivity() {
 
@@ -20,8 +23,6 @@ class Login : AppCompatActivity() {
     private lateinit var passwordEditText: TextInputEditText
     private lateinit var loginButton: MaterialButton
     private lateinit var signUpButton: MaterialButton
-
-
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,13 +30,12 @@ class Login : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         // Initialize views
-        emailEditText = findViewById(R.id.emailaddress) // Ensure this ID matches your layout
+        emailEditText = findViewById(R.id.emailaddress)
         passwordEditText = findViewById(R.id.etPassword)
         loginButton = findViewById(R.id.btnLoginNow)
         signUpButton = findViewById(R.id.btnSignUp)
 
-
-        // Initialize Firebase
+        // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
 
         // Retrieve saved login data
@@ -53,11 +53,8 @@ class Login : AppCompatActivity() {
             val password = passwordEditText.text.toString().trim()
 
             if (validateLoginFields(emailEditText, passwordEditText)) {
-                // Show ProgressBar
-
-
                 // Call login function
-                loginUser (email, password)
+                loginUser(email, password)
             }
         }
 
@@ -80,17 +77,41 @@ class Login : AppCompatActivity() {
                     // Successful login
                     Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
 
-                    // Store login data in SharedPreferences
-                    val sharedPreferences = getSharedPreferences("UserLogin", Context.MODE_PRIVATE)
-                    val editor = sharedPreferences.edit()
-                    editor.putBoolean("isLogged", true)
-                    editor.putString("email", email)
-                    editor.putString("password", password)
-                    editor.apply()
+                    // Fetch user name from Firebase and store in SharedPreferences
+                    val sanitizedEmail = sanitizeEmail(email)
+                    val database = FirebaseDatabase.getInstance().getReference("Users").child(sanitizedEmail)
+                    database.addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            val name = snapshot.child("name").getValue(String::class.java) ?: "Karan Bankar"
+                            val sharedPreferences = getSharedPreferences("UserLogin", Context.MODE_PRIVATE)
+                            with(sharedPreferences.edit()) {
+                                putBoolean("isLogged", true)
+                                putString("email", email)
+                                putString("password", password)
+                                putString("name", name) // Store the name
+                                apply()
+                            }
 
-                    // Proceed to next activity (Dashboard)
-                    startActivity(Intent(this, Dashboard::class.java))
-                    finish()
+                            // Proceed to next activity (Dashboard)
+                            startActivity(Intent(this@Login, Dashboard::class.java))
+                            finish()
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            Toast.makeText(this@Login, "Failed to fetch user data: ${error.message}", Toast.LENGTH_LONG).show()
+                            // Still proceed to Dashboard, but without name
+                            val sharedPreferences = getSharedPreferences("UserLogin", Context.MODE_PRIVATE)
+                            with(sharedPreferences.edit()) {
+                                putBoolean("isLogged", true)
+                                putString("email", email)
+                                putString("password", password)
+                                putString("name", "Unknown User") // Fallback name
+                                apply()
+                            }
+                            startActivity(Intent(this@Login, Dashboard::class.java))
+                            finish()
+                        }
+                    })
                 } else {
                     // Provide specific error messages
                     val errorMessage = task.exception?.message ?: "Login failed. Please try again."
@@ -98,7 +119,6 @@ class Login : AppCompatActivity() {
                 }
             }
     }
-
 
     private fun togglePasswordVisibility(passwordField: TextInputEditText, showPassword: Boolean) {
         passwordField.transformationMethod = if (showPassword) {
@@ -141,5 +161,13 @@ class Login : AppCompatActivity() {
         }
 
         return isValid
+    }
+
+    private fun sanitizeEmail(email: String): String {
+        return email.replace(".", "_")
+            .replace("#", "_")
+            .replace("$", "_")
+            .replace("[", "_")
+            .replace("]", "_")
     }
 }
