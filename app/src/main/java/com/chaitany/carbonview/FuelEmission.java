@@ -1,8 +1,13 @@
 package com.chaitany.carbonview;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +23,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
@@ -35,6 +41,7 @@ public class FuelEmission extends AppCompatActivity {
     private Button btnCalculate;
     private LinearLayout listContainer;
     private DatabaseReference databaseReference;
+    private DatabaseReference userRef;
     private String currentMonth;
 
     // Predefined emission factors (in kg CO2 per liter)
@@ -47,6 +54,24 @@ public class FuelEmission extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fuel_emission);
 
+
+        // Get email from SharedPreferences and initialize user reference
+        String email = getSharedPreferences("UserLogin", Context.MODE_PRIVATE)
+                .getString("email", null);
+        if (email != null) {
+            String safeEmail = email.replace(".", ",");
+            userRef = FirebaseDatabase.getInstance()
+                    .getReference("users")
+                    .child(safeEmail)
+                    .child("emissions_data")
+                    .child("fuel_emissions");
+        } else {
+            Log.e("FuelEmission", "Email not found in SharedPreferences");
+            Toast.makeText(this, "User email not found", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Initialize views
         inputFuelAmount = findViewById(R.id.inputFuelAmount);
         fuelTypeSpinner = findViewById(R.id.feultypespinner);
         carbonG = findViewById(R.id.carbonG);
@@ -63,7 +88,8 @@ public class FuelEmission extends AppCompatActivity {
         currentMonth = new SimpleDateFormat("yyyy-MMMM", Locale.getDefault()).format(new Date());
 
         // Initialize Firebase Database with month-specific node
-        databaseReference = FirebaseDatabase.getInstance().getReference("carbonviewcalculations/manualaddedemissions/fuelemissions/" + currentMonth);
+        databaseReference = FirebaseDatabase.getInstance()
+                .getReference("carbonviewcalculations/manualaddedemissions/fuelemissions/" + currentMonth);
 
         // Populate the fuel type spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -87,7 +113,18 @@ public class FuelEmission extends AppCompatActivity {
                 Toast.makeText(this, "Please enter fuel amount", Toast.LENGTH_SHORT).show();
             }
         });
+
+        // Animate result card entrance
+        resultCard.setTranslationY(200f);
+        resultCard.setAlpha(0f);
+        resultCard.animate()
+                .translationY(0f)
+                .alpha(1f)
+                .setDuration(400)
+                .setInterpolator(new OvershootInterpolator())
+                .start();
     }
+
 
     private void calculateFuelEmission(double fuelAmount) {
         String selectedFuelType = fuelTypeSpinner.getSelectedItem().toString();
@@ -187,6 +224,7 @@ public class FuelEmission extends AppCompatActivity {
                 runOnUiThread(() -> {
                     totalEmissions.setVisibility(View.VISIBLE);
                     totalEmissions.setText("Total Emissions for " + currentMonth + ": " + String.format("%.2f", finalTotal) + " kg CO₂");
+                    storeFuelEmissions(finalTotal);
                 });
             }
 
@@ -195,6 +233,20 @@ public class FuelEmission extends AppCompatActivity {
                 showError("Error loading total emissions: " + databaseError.getMessage());
             }
         });
+    }
+
+    private void storeFuelEmissions(double totalEmissions) {
+        Map<String, Object> emissionsData = new HashMap<>();
+        emissionsData.put("emissions", totalEmissions);
+
+        userRef.setValue(emissionsData)
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("FirebaseSuccess", "Fuel emissions stored successfully");
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("FirebaseError", "Error storing fuel emissions", e);
+                    Toast.makeText(this, "Failed to store fuel emissions", Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void showError(String message) {

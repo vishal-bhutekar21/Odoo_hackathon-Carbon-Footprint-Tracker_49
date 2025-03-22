@@ -1,8 +1,13 @@
 package com.chaitany.carbonview;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +23,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
@@ -36,6 +42,7 @@ public class IndustryEmission extends AppCompatActivity {
     private Button btnCalculate;
     private LinearLayout listContainer;
     private DatabaseReference databaseReference;
+    private DatabaseReference userRef;
     private String currentMonth;
 
     // Predefined emission factors (in kg CO2 per unit of production)
@@ -47,6 +54,24 @@ public class IndustryEmission extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_industry_emission);
+
+        // Setup toolbar
+
+        // Get email from SharedPreferences and initialize user reference
+        String email = getSharedPreferences("UserLogin", Context.MODE_PRIVATE)
+                .getString("email", null);
+        if (email != null) {
+            String safeEmail = email.replace(".", ",");
+            userRef = FirebaseDatabase.getInstance()
+                    .getReference("users")
+                    .child(safeEmail)
+                    .child("emissions_data")
+                    .child("industry_emissions");
+        } else {
+            Log.e("IndustryEmission", "Email not found in SharedPreferences");
+            Toast.makeText(this, "User email not found", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         // Initialize UI components
         inputProductionAmount = findViewById(R.id.inputProductionAmount);
@@ -68,7 +93,8 @@ public class IndustryEmission extends AppCompatActivity {
         currentMonth = new SimpleDateFormat("yyyy-MMMM", Locale.getDefault()).format(new Date());
 
         // Initialize Firebase Realtime Database with month-specific node
-        databaseReference = FirebaseDatabase.getInstance().getReference("carbonviewcalculations/manualaddedemissions/industryemissions/" + currentMonth);
+        databaseReference = FirebaseDatabase.getInstance()
+                .getReference("carbonviewcalculations/manualaddedemissions/industryemissions/" + currentMonth);
 
         // Populate the industry type spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -98,7 +124,18 @@ public class IndustryEmission extends AppCompatActivity {
                 Toast.makeText(this, "Please enter production amount", Toast.LENGTH_SHORT).show();
             }
         });
+
+        // Animate result card entrance
+        resultCard.setTranslationY(200f);
+        resultCard.setAlpha(0f);
+        resultCard.animate()
+                .translationY(0f)
+                .alpha(1f)
+                .setDuration(400)
+                .setInterpolator(new OvershootInterpolator())
+                .start();
     }
+
 
     private void calculateIndustryEmission(double productionAmount) {
         String selectedIndustryType = industryTypeSpinner.getSelectedItem().toString();
@@ -194,6 +231,7 @@ public class IndustryEmission extends AppCompatActivity {
                 runOnUiThread(() -> {
                     totalEmissions.setVisibility(View.VISIBLE);
                     totalEmissions.setText("Total Emissions for " + currentMonth + ": " + String.format("%.2f", finalTotal) + " kg CO₂");
+                    storeIndustryEmissions(finalTotal);
                 });
             }
 
@@ -202,6 +240,20 @@ public class IndustryEmission extends AppCompatActivity {
                 showError("Error loading total emissions: " + databaseError.getMessage());
             }
         });
+    }
+
+    private void storeIndustryEmissions(double totalEmissions) {
+        Map<String, Object> emissionsData = new HashMap<>();
+        emissionsData.put("emissions", totalEmissions);
+
+        userRef.setValue(emissionsData)
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("FirebaseSuccess", "Industry emissions stored successfully");
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("FirebaseError", "Error storing industry emissions", e);
+                    Toast.makeText(this, "Failed to store industry emissions", Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void showError(String message) {

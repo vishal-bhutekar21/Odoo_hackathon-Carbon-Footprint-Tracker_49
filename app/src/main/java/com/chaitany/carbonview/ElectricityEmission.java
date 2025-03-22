@@ -1,9 +1,13 @@
 package com.chaitany.carbonview;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -17,6 +21,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
@@ -44,6 +49,7 @@ public class ElectricityEmission extends AppCompatActivity {
     private Button btnCalculate;
     private LinearLayout listContainer;
     private DatabaseReference databaseReference;
+    private DatabaseReference userRef;
     private String currentMonth;
 
     private static final String API_URL = "https://www.carboninterface.com/api/v1/estimates";
@@ -55,6 +61,25 @@ public class ElectricityEmission extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_electricity_emission);
 
+        // Setup toolbar
+
+        // Get email from SharedPreferences and initialize user reference
+        String email = getSharedPreferences("UserLogin", Context.MODE_PRIVATE)
+                .getString("email", null);
+        if (email != null) {
+            String safeEmail = email.replace(".", ",");
+            userRef = FirebaseDatabase.getInstance()
+                    .getReference("users")
+                    .child(safeEmail)
+                    .child("emissions_data")
+                    .child("electricity_emissions");
+        } else {
+            Log.e("ElectricityEmission", "Email not found in SharedPreferences");
+            Toast.makeText(this, "User email not found", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Initialize views
         inputElectricity = findViewById(R.id.inputElectricity);
         electricityResult = findViewById(R.id.electricityResult);
         carbonG = findViewById(R.id.carbonG);
@@ -71,7 +96,8 @@ public class ElectricityEmission extends AppCompatActivity {
         currentMonth = new SimpleDateFormat("yyyy-MMMM", Locale.getDefault()).format(new Date());
 
         // Initialize Firebase Database with month-specific node
-        databaseReference = FirebaseDatabase.getInstance().getReference("carbonviewcalculations/manualaddedemissions/electricalemissions/" + currentMonth);
+        databaseReference = FirebaseDatabase.getInstance()
+                .getReference("carbonviewcalculations/manualaddedemissions/electricalemissions/" + currentMonth);
 
         // Load total emissions for the current month
         loadTotalEmissions();
@@ -89,7 +115,20 @@ public class ElectricityEmission extends AppCompatActivity {
                 Toast.makeText(this, "Please enter electricity consumption", Toast.LENGTH_SHORT).show();
             }
         });
+
+        // Animate result card entrance
+        resultCard.setTranslationY(200f);
+        resultCard.setAlpha(0f);
+        resultCard.animate()
+                .translationY(0f)
+                .alpha(1f)
+                .setDuration(400)
+                .setInterpolator(new OvershootInterpolator())
+                .start();
     }
+
+
+
 
     private void getElectricityEmission(double energyUsed) {
         OkHttpClient client = new OkHttpClient();
@@ -223,6 +262,7 @@ public class ElectricityEmission extends AppCompatActivity {
                 runOnUiThread(() -> {
                     totalEmissions.setVisibility(View.VISIBLE);
                     totalEmissions.setText("Total Emissions for " + currentMonth + ": " + String.format("%.2f", finalTotal) + " kg CO₂");
+                    storeElectricityEmissions(finalTotal);
                 });
             }
 
@@ -231,6 +271,21 @@ public class ElectricityEmission extends AppCompatActivity {
                 showError("Error loading total emissions: " + databaseError.getMessage());
             }
         });
+    }
+
+    private void storeElectricityEmissions(double totalEmissions) {
+        Map<String, Object> emissionsData = new HashMap<>();
+        emissionsData.put("emissions", totalEmissions);
+
+
+        userRef.setValue(emissionsData)
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("FirebaseSuccess", "Electricity emissions stored successfully");
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("FirebaseError", "Error storing electricity emissions", e);
+                    Toast.makeText(this, "Failed to store electricity emissions", Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void showError(String message) {
