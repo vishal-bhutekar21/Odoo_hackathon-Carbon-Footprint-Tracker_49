@@ -7,6 +7,7 @@ import android.os.Looper
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.chaitany.carbonview.IOTIntegration.AddDevices
 import com.google.android.material.button.MaterialButton
 
 class ConnectIOT : AppCompatActivity() {
@@ -31,7 +32,7 @@ class ConnectIOT : AppCompatActivity() {
             Handler(Looper.getMainLooper()).postDelayed({
                 progressBar.visibility = View.GONE
                 btnConnect.isEnabled = true
-                val intent = Intent(this, IOT_Simulator::class.java)
+                val intent = Intent(this, AddDevices::class.java)
                 startActivity(intent)
             }, 4000)
         }
