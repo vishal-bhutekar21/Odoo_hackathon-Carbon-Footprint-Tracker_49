@@ -8,8 +8,8 @@ data class SocialPost(
     val description: String = "",
     val imageUrl: String = "",
     val date: String = "",
-    val likes: Int = 0,
-    val likedBy: MutableMap<String, Boolean> = mutableMapOf(), // Tracks users who liked (email -> true)
-    val comments: MutableMap<String, String> = mutableMapOf(), // Timestamp -> Comment
-    val pointsFromThisPost: Int = 0
+    val likes: Int = 0, // Ensure default is 0
+    val likedBy: MutableMap<String, Boolean> = mutableMapOf(),
+    val comments: MutableMap<String, String> = mutableMapOf(),
+    val pointsFromThisPost: Int = 0 // Default to 0
 )

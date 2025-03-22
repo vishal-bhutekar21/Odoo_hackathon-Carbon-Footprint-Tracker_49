@@ -57,7 +57,7 @@ class SocialPlatformActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        adapter = SocialPostAdapter(posts, currentUserEmail) // Already sanitized
+        adapter = SocialPostAdapter(posts, currentUserEmail, this) // Pass 'this' as Context
         binding.socialRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.socialRecyclerView.adapter = adapter
     }
@@ -140,8 +140,8 @@ class SocialPlatformActivity : AppCompatActivity() {
                     val postId = FirebaseDatabase.getInstance().getReference("SocialPlatform").push().key ?: return@addOnSuccessListener
                     val post = SocialPost(
                         id = postId,
-                        email = currentUserEmail, // Sanitized email for Firebase key
-                        rawEmail = rawUserEmail,  // Original email for display
+                        email = currentUserEmail,
+                        rawEmail = rawUserEmail,
                         eventName = eventName,
                         description = description,
                         imageUrl = downloadUrl.toString(),
