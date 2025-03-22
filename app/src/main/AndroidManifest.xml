@@ -44,6 +44,9 @@
         android:theme="@style/Theme.AgeWellSuper"
         tools:targetApi="31">
         <activity
+            android:name=".SocialPlatform.SocialPlatformActivity"
+            android:exported="false"/>
+        <activity
             android:name=".CompanyFinalEmissionData"
             android:exported="false" />
         <activity
@@ -73,7 +76,6 @@
         <activity
             android:name=".EstimationGrid"
             android:exported="false" />
-
         <activity
             android:name=".AnalyzeActivity"
             android:exported="false" />
@@ -119,7 +121,6 @@
         <activity
             android:name=".ForgotPassword"
             android:exported="false" />
-
         <activity
             android:name=".AboutActivity"
             android:exported="false" />
@@ -134,7 +135,6 @@
             android:exported="false" />
         <activity
             android:name=".OurFeedbacks"
-
             android:exported="false" />
         <activity
             android:name=".ProfileActivity"

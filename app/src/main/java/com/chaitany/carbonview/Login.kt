@@ -38,6 +38,15 @@ class Login : AppCompatActivity() {
         // Initialize Firebase
         auth = FirebaseAuth.getInstance()
 
+        // Retrieve saved login data
+        val sharedPreferences = getSharedPreferences("UserLogin", Context.MODE_PRIVATE)
+        val savedEmail = sharedPreferences.getString("email", "")
+        val savedPassword = sharedPreferences.getString("password", "")
+
+        // Auto-fill login fields
+        emailEditText.setText(savedEmail)
+        passwordEditText.setText(savedPassword)
+
         // Login button click listener
         loginButton.setOnClickListener {
             val email = emailEditText.text.toString().trim()
@@ -64,19 +73,19 @@ class Login : AppCompatActivity() {
         }
     }
 
-    private fun loginUser (email: String, password: String) {
-        // Use Firebase Authentication to sign in
+    private fun loginUser(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
-
                 if (task.isSuccessful) {
                     // Successful login
                     Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
 
-                    // Set isLogged flag in SharedPreferences
+                    // Store login data in SharedPreferences
                     val sharedPreferences = getSharedPreferences("UserLogin", Context.MODE_PRIVATE)
                     val editor = sharedPreferences.edit()
                     editor.putBoolean("isLogged", true)
+                    editor.putString("email", email)
+                    editor.putString("password", password)
                     editor.apply()
 
                     // Proceed to next activity (Dashboard)
@@ -89,6 +98,7 @@ class Login : AppCompatActivity() {
                 }
             }
     }
+
 
     private fun togglePasswordVisibility(passwordField: TextInputEditText, showPassword: Boolean) {
         passwordField.transformationMethod = if (showPassword) {
