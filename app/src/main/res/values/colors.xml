@@ -13,6 +13,11 @@
     <color name="gray_800">#1F2937</color>
     <color name="gray_disabled">#B0BEC5</color> <!-- Disabled state -->
 
+    <color name="gold">#FFD700</color>
+    <color name="silver">#C0C0C0</color>
+    <color name="bronze">#CD7F32</color>
+    <color name="grey">#757575</color>
+
     <!-- Theme-specific colors -->
     <color name="my_light_primary">#0D9488</color>
     <color name="my_light_primary_variant">#0B7A70</color>
