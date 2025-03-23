@@ -67,8 +67,8 @@ CarbonView Demo Video
 
 https://youtu.be/zsv2l4NFGkM?si=-ChfzpXcTmBg6M9F
 
-How It Works
-Data Entry: Users input details about their activities (e.g., liters of fuel, flight routes, shipping weight, production units).
-Emission Calculation: The app uses standard rates or fetches live data to calculate emissions, showing results in various units and categorizing them into Scope 1, 2, or 3.
-Tracking & Saving: Users decide to save their results to the cloud, updating monthly totals, or discard them, with suggestions provided to guide reduction.
-Visualization: Charts display monthly emission trends, helping users monitor their progress and adjust habits.
+
+google drive links 
+
+https://drive.google.com/drive/folders/1If32rKDsayGV7HmKXEOMW0NhDbTrmgnH?usp=sharing
+
