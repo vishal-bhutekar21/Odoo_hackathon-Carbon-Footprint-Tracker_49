@@ -1,14 +1,19 @@
 package com.chaitany.carbonview
 
-import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.*
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.firebase.database.*
 import com.google.android.material.textview.MaterialTextView
+import android.view.View
+import android.view.Window
+import android.view.WindowManager
 
 class VehicleReport : AppCompatActivity() {
 
@@ -31,6 +36,21 @@ class VehicleReport : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_vehicle_report)
+
+        // Set up the Toolbar
+        val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+
+        // Set status bar color to match the Toolbar
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.statusBarColor = ContextCompat.getColor(this, R.color.primary)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            }
+        }
 
         // Initialize Firebase
         database = FirebaseDatabase.getInstance()
@@ -89,34 +109,48 @@ class VehicleReport : AppCompatActivity() {
         val bikeCO2 = (totalBikeKm / 40) * 2.32 // Bike CO2 in kg
         val totalCO2 = carCO2 + bikeCO2
 
-        carKmText.text = "Car Distance: %.2f km".format(totalCarKm)
-        carCO2Text.text = "Car CO₂: %.2f kg".format(carCO2)
-        bikeKmText.text = "Bike Distance: %.2f km".format(totalBikeKm)
-        bikeCO2Text.text = "Bike CO₂: %.2f kg".format(bikeCO2)
-        totalKmText.text = "Total Distance Driven: %.2f km".format(totalCarKm + totalBikeKm)
-        totalCO2Text.text = "Total CO₂ Emissions: %.2f kg".format(totalCO2)
+        // Update text views (remove prefixes as they are now separate TextViews in the layout)
+        carKmText.text = "%.2f km".format(totalCarKm)
+        carCO2Text.text = "%.2f kg CO₂".format(carCO2)
+        bikeKmText.text = "%.2f km".format(totalBikeKm)
+        bikeCO2Text.text = "%.2f kg CO₂".format(bikeCO2)
+        totalKmText.text = "%.2f km".format(totalCarKm + totalBikeKm)
+        totalCO2Text.text = "%.2f kg CO₂".format(totalCO2)
 
         updateCharts(carCO2, bikeCO2)
     }
 
     private fun updateCharts(carCO2: Double, bikeCO2: Double) {
+        // Pie Chart
         val pieEntries = listOf(
             PieEntry(carCO2.toFloat(), "Car"),
             PieEntry(bikeCO2.toFloat(), "Bike")
         )
         val pieDataSet = PieDataSet(pieEntries, "CO₂ Emissions")
-        pieDataSet.colors = listOf(Color.BLUE, Color.RED) // Car - Blue, Bike - Red
+        pieDataSet.colors = listOf(
+            ContextCompat.getColor(this, R.color.primary), // Car - Teal
+            ContextCompat.getColor(this, android.R.color.holo_red_dark) // Bike - Red
+        )
         pieChart.data = PieData(pieDataSet)
         pieChart.setUsePercentValues(true)
         pieChart.invalidate()
 
+        // Bar Chart
         val barEntries = listOf(
             BarEntry(1f, carCO2.toFloat()),
             BarEntry(2f, bikeCO2.toFloat())
         )
         val barDataSet = BarDataSet(barEntries, "CO₂ Emissions")
-        barDataSet.colors = listOf(Color.GREEN, Color.MAGENTA) // Car - Green, Bike - Magenta
+        barDataSet.colors = listOf(
+            ContextCompat.getColor(this, R.color.primary), // Car - Teal
+            ContextCompat.getColor(this, android.R.color.holo_red_dark) // Bike - Red
+        )
         barChart.data = BarData(barDataSet)
         barChart.invalidate()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }
