@@ -20,7 +20,7 @@ class ManageDeviceAdapter(private val deviceList: MutableList<RealtimeDevice>) :
     class DeviceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val txtDeviceName: TextView = view.findViewById(R.id.txtDeviceName)
         val txtModel: TextView = view.findViewById(R.id.txtModel)
-        val txtPower: TextView = view.findViewById(R.id.txtPower)
+
         val txtEmission: TextView = view.findViewById(R.id.txtEmission)
         val txtTime: TextView = view.findViewById(R.id.txtTime)
         val imgEnergySource: ImageView = view.findViewById(R.id.imgEnergySource)
@@ -44,7 +44,7 @@ class ManageDeviceAdapter(private val deviceList: MutableList<RealtimeDevice>) :
     private fun updateUI(holder: DeviceViewHolder, device: RealtimeDevice, currentDate: String) {
         holder.txtDeviceName.text = device.deviceName
         holder.txtModel.text = "Realtime Device" // Placeholder since no modelName
-        holder.txtPower.text = "Power: ${device.powerRating} kW"
+
 
         // Get daily data for today, default to 0 if not present
         val dailyData = device.data?.get(currentDate) ?: DailyData()
